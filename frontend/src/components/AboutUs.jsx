@@ -33,7 +33,7 @@ function AboutUs() {
       <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-600/20 to-purple-600/20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-2xl font-medium mb-6 ">
             Our Story
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
