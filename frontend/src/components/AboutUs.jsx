@@ -1,7 +1,10 @@
 import React from "react";
 import { Users, Award, BookOpen, Globe, Heart, TrendingUp, Target, Shield, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 function AboutUs() {
+
+  
   const stats = [
     { icon: <Users className="w-8 h-8" />, value: "50K+", label: "Happy Readers", color: "text-pink-600 bg-gradient-to-br from-pink-50 to-pink-100" },
     { icon: <BookOpen className="w-8 h-8" />, value: "10K+", label: "Books Available", color: "text-purple-600 bg-gradient-to-br from-purple-50 to-purple-100" },
@@ -46,23 +49,30 @@ function AboutUs() {
         
         {/* Our Story */}
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
-          <div>
-            <span className="inline-block px-4 py-2 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-600 rounded-full text-sm font-medium mb-4">
-              Our Journey
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-              From a small idea to a global community
-            </h2>
-            <p className="text-gray-600 mb-4">
-              Founded in 2015, Book Store began with a simple vision: to create a platform where anyone, anywhere could access quality educational resources and books. What started as a small online library has grown into a global community of passionate readers and learners.
-            </p>
-            <p className="text-gray-600 mb-6">
-              Today, we serve millions of readers across 150+ countries, offering a diverse collection of books, courses, and learning materials. Our commitment to accessibility and quality has made us a trusted name in online education.
-            </p>
-            <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5">
-              Explore Our Collection
-            </button>
-          </div>
+          <div className="max-w-2xl mx-auto text-center">
+  <span className="inline-block px-4 py-2 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-600 rounded-full text-sm font-medium mb-4">
+    Our Journey
+  </span>
+
+  <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+    From a small idea to a global community
+  </h2>
+
+  <p className="text-gray-600 mb-4">
+    Founded in 2015, Book Store began with a simple vision: to create a platform
+    where anyone, anywhere could access quality educational resources and books.
+  </p>
+
+  <p className="text-gray-600 mb-6">
+    Today, we serve millions of readers across 150+ countries, offering a diverse
+    collection of books, courses, and learning materials.
+  </p>
+
+  <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5">
+    Explore Our Collection
+  </button>
+</div>
+
           <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-8 border border-pink-100">
             <div className="aspect-video rounded-xl overflow-hidden shadow-2xl">
               <div className="w-full h-full bg-gradient-to-r from-pink-400 to-purple-500 flex items-center justify-center">

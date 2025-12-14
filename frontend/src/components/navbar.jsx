@@ -12,7 +12,6 @@ function Navbar() {
       {/* ================= NAVBAR ================= */}
       <header className="px-6 py-4 mt-4 bg-white rounded-xl mx-4 shadow-sm">
         <div className="flex items-center justify-between font-poppins max-w-7xl mx-auto">
-
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer">
             <div className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
@@ -58,10 +57,7 @@ function Navbar() {
           </button>
 
           {/* Hamburger */}
-          <button
-            className="md:hidden text-3xl"
-            onClick={() => setOpen(!open)}
-          >
+          <button className="md:hidden text-3xl" onClick={() => setOpen(!open)}>
             ☰
           </button>
         </div>
@@ -104,7 +100,6 @@ function Navbar() {
       {showLogin && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="relative w-full max-w-6xl bg-white rounded-2xl overflow-hidden">
-
             <LoginPage
               onClose={() => setShowLogin(false)}
               onSwitchToSignup={() => {
@@ -112,7 +107,6 @@ function Navbar() {
                 setShowSignup(true);
               }}
             />
-
           </div>
         </div>
       )}
@@ -120,8 +114,10 @@ function Navbar() {
       {/* ================= SIGNUP MODAL ================= */}
       {showSignup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="relative w-full max-w-6xl bg-white rounded-2xl overflow-hidden">
-
+          <div
+            className="relative w-full max-w-6xl bg-white rounded-2xl 
+                  max-h-[90vh] overflow-y-auto"
+          >
             <SignUpPage
               onClose={() => setShowSignup(false)}
               onSwitchToLogin={() => {
@@ -129,7 +125,6 @@ function Navbar() {
                 setShowLogin(true);
               }}
             />
-
           </div>
         </div>
       )}

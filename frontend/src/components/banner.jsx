@@ -10,13 +10,15 @@ function Banner() {
           <div className="flex-1 w-full lg:w-1/2">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
               Hello, welcomes here to learn{" "}
-              <span className="text-pink-500 block sm:inline">something new everyday!!!</span>
+              <span className="text-pink-500 block sm:inline">
+                something new everyday!!!
+              </span>
             </h1>
 
             <p className="mt-4 sm:mt-6 text-gray-600 text-base sm:text-lg lg:text-xl max-w-xl">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor, et
-              totam. Tempora amet atque expedita, quae corrupti totam sed pariatur
-              corporis at veniam est voluptas animi!
+              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor,
+              et totam. Tempora amet atque expedita, quae corrupti totam sed
+              pariatur corporis at veniam est voluptas animi!
             </p>
 
             {/* Email Input & Button */}
@@ -34,18 +36,30 @@ function Banner() {
             </div>
 
             {/* Stats */}
-            <div className="mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-4">
               <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-gray-900">10K+</div>
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  10K+
+                </div>
+                <div className="text-gray-600 text-sm sm:text-base">
+                  Students
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  100+
+                </div>
+                <div className="text-gray-600 text-sm sm:text-base">
+                  Courses
+                </div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl font-bold text-gray-900">
+                  5K+
+                </div>
                 <div className="text-gray-600 text-sm sm:text-base">Books</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl sm:text-3xl font-bold text-gray-900">5K+</div>
-                <div className="text-gray-600 text-sm sm:text-base">Students</div>
-              </div>
-              <div className="text-center sm:col-span-1 col-span-2">
-                <div className="text-2xl sm:text-3xl font-bold text-gray-900">100+</div>
-                <div className="text-gray-600 text-sm sm:text-base">Courses</div>
               </div>
             </div>
           </div>
