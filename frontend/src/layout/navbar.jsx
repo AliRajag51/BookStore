@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SignUpPage from "../components/signUpPage";
-import LoginPage from "../components/loginPage";
+import SignUpPage from "../pages/signUpPage";
+import LoginPage from "../pages/loginPage";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -12,6 +12,7 @@ function Navbar() {
       {/* ================= NAVBAR ================= */}
       <header className="px-6 py-4 mt-4 bg-white rounded-xl mx-4 shadow-sm">
         <div className="flex items-center justify-between font-poppins max-w-7xl mx-auto">
+
           {/* Logo */}
           <div className="flex items-center space-x-2 cursor-pointer">
             <div className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
@@ -48,16 +49,27 @@ function Navbar() {
             </button>
           </div>
 
-          {/* Login Button */}
+          {/* LOGIN BUTTON (DESKTOP) */}
           <button
             onClick={() => setShowLogin(true)}
-            className="hidden md:block bg-black text-white px-10 py-2 rounded-xl hover:bg-gray-800 transition"
+            className="
+              hidden md:block
+              bg-gradient-to-r from-pink-500 to-purple-600
+              text-white
+              px-10 py-2
+              rounded-xl
+              hover:from-pink-600 hover:to-purple-700
+              transition
+            "
           >
             Login
           </button>
 
           {/* Hamburger */}
-          <button className="md:hidden text-3xl" onClick={() => setOpen(!open)}>
+          <button
+            className="md:hidden text-3xl"
+            onClick={() => setOpen(!open)}
+          >
             ☰
           </button>
         </div>
@@ -88,7 +100,12 @@ function Navbar() {
                 setShowLogin(true);
                 setOpen(false);
               }}
-              className="bg-black text-white px-5 py-2 rounded-xl hover:bg-gray-800 w-full"
+              className="
+                bg-gradient-to-r from-pink-500 to-purple-600
+                text-white px-5 py-2 rounded-xl
+                hover:from-pink-600 hover:to-purple-700
+                transition w-full
+              "
             >
               Login
             </button>
@@ -114,10 +131,7 @@ function Navbar() {
       {/* ================= SIGNUP MODAL ================= */}
       {showSignup && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div
-            className="relative w-full max-w-6xl bg-white rounded-2xl 
-                  max-h-[90vh] overflow-y-auto"
-          >
+          <div className="relative w-full max-w-6xl bg-white rounded-2xl max-h-[90vh] overflow-y-auto">
             <SignUpPage
               onClose={() => setShowSignup(false)}
               onSwitchToLogin={() => {

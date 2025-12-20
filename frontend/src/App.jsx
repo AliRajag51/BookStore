@@ -1,8 +1,8 @@
 import './App.css'
-import Banner from './components/banner.jsx'
-import Freecourse from './components/freecourse.jsx'
-import ContactUs from './components/ContactUs.jsx'
-import AboutUs from './components/AboutUs.jsx'
+import Banner from './pages/banner.jsx'
+import Freecourse from './pages/freecourse.jsx'
+import ContactUs from './pages/ContactUs.jsx'
+import AboutUs from './pages/AboutUs.jsx'
 import Layout from './layout/index.jsx'
 
 function App() {
