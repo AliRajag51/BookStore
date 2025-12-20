@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { Mail, Phone, MapPin, Send, Clock, MessageSquare, User, CheckCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Send, Clock, MessageSquare, User } from "lucide-react";
+import SectionHeader from "../../components/ContactUs/SectionHeader.jsx";
+import ContactInfoItem from "../../components/ContactUs/ContactInfoItem.jsx";
+import SuccessMessage from "../../components/ContactUs/SuccessMessage.jsx";
+import NextStepItem from "../../components/ContactUs/NextStepItem.jsx";
 
 function ContactUs() {
   const [formData, setFormData] = useState({
@@ -65,17 +69,11 @@ function ContactUs() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Hero Section */}
-        <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-pink-100 to-purple-100 text-pink-600 rounded-full text-sm font-medium mb-4">
-            Get In Touch
-          </span>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Contact Us
-          </h1>
-          <p className="text-lg text-gray-600">
-            Have questions? We're here to help. Reach out to us anytime.
-          </p>
-        </div>
+        <SectionHeader
+          badge="Get In Touch"
+          title="Contact Us"
+          description="Have questions? We're here to help. Reach out to us anytime."
+        />
 
         <div className="grid lg:grid-cols-2 gap-8 md:gap-12">
           {/* Contact Information */}
@@ -85,16 +83,13 @@ function ContactUs() {
               
               <div className="space-y-6">
                 {contactInfo.map((info, index) => (
-                  <div key={index} className="flex items-start gap-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl flex items-center justify-center">
-                      {info.icon}
-                    </div>
-                    <div>
-                      <h3 className="font-semibold text-gray-900">{info.title}</h3>
-                      <p className="text-gray-700 mt-1">{info.details}</p>
-                      <p className="text-gray-500 text-sm mt-1">{info.subtitle}</p>
-                    </div>
-                  </div>
+                  <ContactInfoItem
+                    key={index}
+                    icon={info.icon}
+                    title={info.title}
+                    details={info.details}
+                    subtitle={info.subtitle}
+                  />
                 ))}
               </div>
 
@@ -139,13 +134,10 @@ function ContactUs() {
               </div>
 
               {isSubmitted ? (
-                <div className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-xl p-6 text-center">
-                  <CheckCircle className="w-12 h-12 text-pink-600 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">Message Sent Successfully!</h3>
-                  <p className="text-gray-700">
-                    Thank you for contacting us. We'll get back to you within 24 hours.
-                  </p>
-                </div>
+                <SuccessMessage
+                  title="Message Sent Successfully!"
+                  description="Thank you for contacting us. We'll get back to you within 24 hours."
+                />
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-6">
@@ -243,18 +235,9 @@ function ContactUs() {
               <div className="mt-8 pt-6 border-t border-gray-200">
                 <h4 className="font-semibold text-gray-900 mb-3">What happens next?</h4>
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                    <span className="text-gray-700">We'll review your message</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                    <span className="text-gray-700">Assign to the right team member</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-6 h-6 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                    <span className="text-gray-700">Get back to you within 24 hours</span>
-                  </div>
+                  <NextStepItem index={1} text="We'll review your message" />
+                  <NextStepItem index={2} text="Assign to the right team member" />
+                  <NextStepItem index={3} text="Get back to you within 24 hours" />
                 </div>
               </div>
             </div>
