@@ -1,5 +1,7 @@
 import React from "react";
 import bannerImage from "../../assets/banner-image.png";
+import Button from "../../components/Button/Button.jsx";
+
 
 function Banner() {
   return (
@@ -30,9 +32,21 @@ function Banner() {
                   className="w-full px-4 py-3 sm:py-4 border rounded-lg outline-none focus:ring-2 focus:ring-pink-400 text-base"
                 />
               </div>
-              <button className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 sm:py-4 rounded-lg font-medium transition text-base sm:text-lg whitespace-nowrap">
-                Secondary Action
-              </button>
+               <Button
+                className="
+                  px-6 py-3 sm:py-4
+                  text-base sm:text-lg
+                  rounded-lg
+                  whitespace-nowrap
+                "
+                onClick={() => {
+                  document
+                    .getElementById("free-courses")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+              >
+                Explore Free Courses
+              </Button>
             </div>
 
             {/* Stats */}

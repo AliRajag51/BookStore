@@ -123,7 +123,7 @@ function FreeCourse() {
 
   // The hover effect is called: "Image Zoom/Scale on Hover"
   return (
-    <section className="font-poppins bg-gradient-to-b from-white to-gray-50 py-16">
+    <section id="free-courses" className="font-poppins bg-gradient-to-b from-white to-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           badge="Free Courses"

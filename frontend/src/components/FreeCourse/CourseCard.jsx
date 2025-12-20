@@ -1,13 +1,7 @@
 import React from "react";
 import { Heart, Share2, Star, Clock, Users } from "lucide-react";
 
-function CourseCard({
-  course,
-  image,
-  isFavorite,
-  onToggleFavorite,
-  onBuyNow,
-}) {
+function CourseCard({ course, image, isFavorite, onToggleFavorite, onBuyNow }) {
   return (
     <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-2">
       {/* Image Container with Hover Effect */}
@@ -25,7 +19,9 @@ function CourseCard({
             className="absolute top-2 right-2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg"
           >
             <Heart
-              className={`w-5 h-5 ${isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"}`}
+              className={`w-5 h-5 ${
+                isFavorite ? "fill-red-500 text-red-500" : "text-gray-600"
+              }`}
             />
           </button>
 
@@ -55,9 +51,7 @@ function CourseCard({
           </span>
         </div>
 
-        <p className="mt-3 text-gray-600 line-clamp-2">
-          {course.description}
-        </p>
+        <p className="mt-3 text-gray-600 line-clamp-2">{course.description}</p>
 
         {/* Course Stats */}
         <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-500">
