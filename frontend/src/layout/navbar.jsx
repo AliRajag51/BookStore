@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SignUpPage from "./signUpPage";
-import LoginPage from "./loginPage";
+import SignUpPage from "../components/signUpPage";
+import LoginPage from "../components/loginPage";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
