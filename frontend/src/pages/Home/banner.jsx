@@ -5,7 +5,7 @@ import Button from "../../components/Button/Button.jsx";
 
 function Banner() {
   return (
-    <section className="font-poppins  from-white to-gray-50">
+    <section id="home" className="font-poppins  from-white to-gray-50">
       <div className="max-w-7xl mx-auto py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12 xl:gap-20">
           {/* Left Content */}

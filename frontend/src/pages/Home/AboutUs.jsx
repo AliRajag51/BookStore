@@ -95,7 +95,7 @@ function AboutUs() {
   ];
 
   return (
-    <section className="font-poppins bg-gradient-to-b from-white to-gray-50">
+    <section id="about" className="font-poppins bg-gradient-to-b from-white to-gray-50">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-600 text-white py-16 md:py-24">
         <div className="absolute inset-0 bg-gradient-to-br from-pink-600/20 to-purple-600/20"></div>
@@ -137,9 +137,12 @@ function AboutUs() {
               materials.
             </p>
 
-            <button className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5">
+            <a
+              href="#free-courses"
+              className="inline-flex px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5"
+            >
               Explore Our Collection
-            </button>
+            </a>
           </div>
 
           <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-2xl p-8 border border-pink-100">
@@ -226,12 +229,18 @@ function AboutUs() {
             through reading and education.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-6 py-3 bg-white text-pink-600 font-semibold rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-0.5">
+            <a
+              href="#free-courses"
+              className="inline-flex px-6 py-3 bg-white text-pink-600 font-semibold rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-0.5"
+            >
               Explore Books
-            </button>
-            <button className="px-6 py-3 bg-pink-700 text-white font-semibold rounded-xl hover:bg-pink-800 transition transform hover:-translate-y-0.5">
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex px-6 py-3 bg-pink-700 text-white font-semibold rounded-xl hover:bg-pink-800 transition transform hover:-translate-y-0.5"
+            >
               Join Our Community
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -15,23 +15,28 @@ function Navbar() {
         <div className="flex items-center justify-between font-poppins max-w-7xl mx-auto">
 
           {/* Logo */}
-          <div className="flex items-center space-x-2 cursor-pointer">
+          <a href="#home" className="flex items-center space-x-2 cursor-pointer">
             <div className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
               <span className="font-bold text-lg">BS</span>
             </div>
             <h1 className="text-xl font-bold text-black">Book Store</h1>
-          </div>
+          </a>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             <nav>
               <ul className="flex gap-8 font-medium text-gray-700">
-                {["Home", "Books", "Contact", "About"].map((item) => (
+                {[
+                  { label: "Home", href: "#home" },
+                  { label: "Books", href: "#free-courses" },
+                  { label: "Contact", href: "#contact" },
+                  { label: "About", href: "#about" },
+                ].map((item) => (
                   <li
-                    key={item}
+                    key={item.label}
                     className="cursor-pointer hover:text-black transition text-lg"
                   >
-                    {item}
+                    <a href={item.href}>{item.label}</a>
                   </li>
                 ))}
               </ul>
@@ -45,7 +50,14 @@ function Navbar() {
               />
             </div>
 
-            <button className="text-xl p-2 rounded-full hover:bg-gray-100 transition">
+            <button
+              className="text-xl p-2 rounded-full hover:bg-gray-100 transition"
+              onClick={() => {
+                document
+                  .getElementById("free-courses")
+                  ?.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
               Cart
             </button>
           </div>
@@ -72,9 +84,14 @@ function Navbar() {
           <div className="md:hidden mt-4 bg-white rounded-xl shadow-md p-4 space-y-4">
             <nav>
               <ul className="flex flex-col gap-4 text-lg text-gray-700">
-                {["Home", "Books", "Contact", "About"].map((item) => (
-                  <li key={item} className="cursor-pointer hover:text-black">
-                    {item}
+                {[
+                  { label: "Home", href: "#home" },
+                  { label: "Books", href: "#free-courses" },
+                  { label: "Contact", href: "#contact" },
+                  { label: "About", href: "#about" },
+                ].map((item) => (
+                  <li key={item.label} className="cursor-pointer hover:text-black">
+                    <a href={item.href}>{item.label}</a>
                   </li>
                 ))}
               </ul>

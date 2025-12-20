@@ -65,7 +65,7 @@ function ContactUs() {
   ];
 
   return (
-    <section className="font-poppins bg-gradient-to-b from-white to-gray-50 py-12 md:py-20">
+    <section id="contact" className="font-poppins bg-gradient-to-b from-white to-gray-50 py-12 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Hero Section */}
@@ -104,21 +104,7 @@ function ContactUs() {
                 </div>
               </div>
 
-              {/* FAQ Preview */}
-              <div className="mt-8">
-                <h3 className="font-semibold text-gray-900 mb-4">Quick Questions?</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3">
-                    <MessageSquare className="w-5 h-5 text-pink-400" />
-                    <span className="text-gray-700">Check our FAQ section</span>
-                  </div>
-                  <a href="#" className="inline-block text-pink-600 hover:text-pink-700 font-medium">
-                    View FAQ →
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+            </div></div>
 
           {/* Contact Form */}
           <div>
@@ -249,3 +235,6 @@ function ContactUs() {
 }
 
 export default ContactUs;
+
+
+
