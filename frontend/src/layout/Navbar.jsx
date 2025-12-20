@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SignUpPage from "../pages/Home/signUpPage";
+import SignUpPage from "./signUpPage.jsx";
 import LoginPage from "../pages/Home/loginPage";
-import Button1 from "../components/Button_temp";
+import Button1 from "../components/Button/Button.jsx";
 
 function Navbar() {
   const [open, setOpen] = useState(false);

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import BannerImage from '../../assets/banner-image.png';
-import { Heart, Share2, Star, Clock, Users, ChevronLeft, ChevronRight } from "lucide-react";
-import BuyNowModal from "./BuyNowModal"; // We'll create this next
+import BannerImage from "../../assets/banner-image.png";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import BuyNowModal from "./BuyNowModal";
+import SectionHeader from "../../components/FreeCourse/SectionHeader.jsx";
+import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
 
 function FreeCourse() {
   const pages = [
@@ -123,107 +125,23 @@ function FreeCourse() {
   return (
     <section className="font-poppins bg-gradient-to-b from-white to-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Section Heading */}
-        <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-block px-4 py-2 bg-pink-100 text-pink-600 rounded-full text-sm font-medium mb-4">
-            Free Courses
-          </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-gray-900">
-            Explore Free Offered Courses
-          </h2>
-          <p className="mt-4 text-lg text-gray-600">
-            Discover amazing free courses to enhance your skills and knowledge. Start learning today!
-          </p>
-        </div>
+        <SectionHeader
+          badge="Free Courses"
+          title="Explore Free Offered Courses"
+          description="Discover amazing free courses to enhance your skills and knowledge. Start learning today!"
+        />
 
         {/* Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {pages[activePage].map((course, index) => (
-            <div
+            <CourseCard
               key={index}
-              className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-2"
-            >
-              {/* Image Container with Hover Effect */}
-              <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50 p-6">
-                <div className="relative">
-                  <img
-                    src={BannerImage}
-                    alt={course.title}
-                    className="w-full h-48 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
-                  />
-                  
-                  {/* Favorite Button */}
-                  <button
-                    onClick={() => toggleFavorite(index)}
-                    className="absolute top-2 right-2 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg"
-                  >
-                    <Heart 
-                      className={`w-5 h-5 ${favorites[index] ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
-                    />
-                  </button>
-                  
-                  {/* Category Badge */}
-                  <span className="absolute bottom-2 left-2 px-3 py-1 bg-black/70 text-white text-xs rounded-full backdrop-blur-sm">
-                    {course.category}
-                  </span>
-                </div>
-                
-                {/* Share Button */}
-                <button className="absolute bottom-6 right-6 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg">
-                  <Share2 className="w-5 h-5 text-gray-600" />
-                </button>
-              </div>
-
-              {/* Content */}
-              <div className="p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-bold text-xl text-gray-900 group-hover:text-black">
-                      {course.title}
-                    </h3>
-                    <p className="text-gray-500 text-sm mt-1">by {course.author}</p>
-                  </div>
-                  <span className="bg-green-100 text-green-600 text-sm px-3 py-1 rounded-full font-medium">
-                    Free
-                  </span>
-                </div>
-
-                <p className="mt-3 text-gray-600 line-clamp-2">
-                  {course.description}
-                </p>
-
-                {/* Course Stats */}
-                <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-500">
-                  <div className="flex items-center gap-1">
-                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                    <span className="font-medium">{course.rating}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Users className="w-4 h-4 text-blue-500" />
-                    <span>{course.students.toLocaleString()}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Clock className="w-4 h-4 text-purple-500" />
-                    <span>{course.duration}</span>
-                  </div>
-                </div>
-
-                {/* Price & Button */}
-                <div className="mt-6 flex justify-between items-center pt-4 border-t border-gray-100">
-                  <div>
-                    <span className="text-2xl font-bold text-gray-900">$0</span>
-                    <span className="text-gray-400 line-through ml-2">$49.99</span>
-                  </div>
-                  <button 
-                    onClick={() => handleBuyNow(course)}
-                    className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-full hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0"
-                  >
-                    Buy Now
-                  </button>
-                </div>
-              </div>
-            </div>
+              course={course}
+              image={BannerImage}
+              isFavorite={Boolean(favorites[index])}
+              onToggleFavorite={() => toggleFavorite(index)}
+              onBuyNow={() => handleBuyNow(course)}
+            />
           ))}
         </div>
 
