@@ -1,20 +1,7 @@
-import './App.css'
-import Banner from './pages/banner.jsx'
-import Freecourse from './pages/freecourse.jsx'
-import ContactUs from './pages/ContactUs.jsx'
-import AboutUs from './pages/AboutUs.jsx'
-import Layout from './layout/index.jsx'
+import HomePage from "./pages/Home/HomePage";
 
 function App() {
-  return (
-    <Layout>
-      <Banner />
-      <Freecourse />
-      <AboutUs />
-      <ContactUs />
-    </Layout>
-  )
+  return <HomePage />;
 }
 
-export default App
-
+export default App;

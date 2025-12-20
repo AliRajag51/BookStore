@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BannerImage from '../assets/banner-image.png';
+import BannerImage from '../../assets/banner-image.png';
 import { Heart, Share2, Star, Clock, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import BuyNowModal from "./BuyNowModal"; // We'll create this next
 

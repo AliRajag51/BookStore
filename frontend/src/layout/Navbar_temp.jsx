@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import SignUpPage from "../pages/signUpPage";
-import LoginPage from "../pages/loginPage";
+import SignUpPage from "../pages/Home/signUpPage";
+import LoginPage from "../pages/Home/loginPage";
+import Button1 from "../components/Button_temp";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -50,20 +51,12 @@ function Navbar() {
           </div>
 
           {/* LOGIN BUTTON (DESKTOP) */}
-          <button
+          <Button1
             onClick={() => setShowLogin(true)}
-            className="
-              hidden md:block
-              bg-gradient-to-r from-pink-500 to-purple-600
-              text-white
-              px-10 py-2
-              rounded-xl
-              hover:from-pink-600 hover:to-purple-700
-              transition
-            "
+            className="hidden md:block"
           >
             Login
-          </button>
+          </Button1>
 
           {/* Hamburger */}
           <button
@@ -95,20 +88,15 @@ function Navbar() {
               />
             </div>
 
-            <button
+            <Button1
               onClick={() => {
                 setShowLogin(true);
                 setOpen(false);
               }}
-              className="
-                bg-gradient-to-r from-pink-500 to-purple-600
-                text-white px-5 py-2 rounded-xl
-                hover:from-pink-600 hover:to-purple-700
-                transition w-full
-              "
+              className="px-5 w-full"
             >
               Login
-            </button>
+            </Button1>
           </div>
         )}
       </header>
