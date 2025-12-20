@@ -8,89 +8,89 @@ import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
 function FreeCourse() {
   const pages = [
     [
-      { 
-        title: "Gaming Book", 
-        author: "John GameDev", 
-        rating: 4.5,
+      {
+        title: "Modern Fiction Picks",
+        author: "Ava Martinez",
+        rating: 4.7,
         students: 1200,
-        duration: "8h 30m",
-        description: "Master game development with this comprehensive guide covering all major game engines.",
-        category: "Gaming"
+        duration: "320 pages",
+        description: "A curated set of contemporary novels with big ideas and page-turning plots.",
+        category: "Fiction"
       },
-      { 
-        title: "Story Book", 
-        author: "Sarah Writer", 
+      {
+        title: "Mystery & Thrillers",
+        author: "Noah Brooks",
         rating: 4.8,
         students: 2400,
-        duration: "6h 15m",
-        description: "Learn the art of storytelling and creative writing techniques.",
-        category: "Literature"
+        duration: "280 pages",
+        description: "Edge-of-your-seat reads with twists, suspense, and unforgettable detectives.",
+        category: "Mystery"
       },
-      { 
-        title: "Design Principles", 
-        author: "Alex Designer", 
-        rating: 4.3,
+      {
+        title: "Design & Creativity",
+        author: "Lena Park",
+        rating: 4.5,
         students: 1800,
-        duration: "5h 45m",
-        description: "Understand fundamental design principles for modern applications.",
-        category: "Design"
+        duration: "210 pages",
+        description: "A visual guide to design thinking, typography, and modern creative practice.",
+        category: "Art & Design"
       },
     ],
     [
-      { 
-        title: "Programming Book", 
-        author: "Mike Coder", 
-        rating: 4.7,
-        students: 3500,
-        duration: "12h 00m",
-        description: "Complete programming course from beginner to advanced levels.",
-        category: "Programming"
-      },
-      { 
-        title: "Sports Book", 
-        author: "Coach Wilson", 
-        rating: 4.2,
-        students: 900,
-        duration: "4h 20m",
-        description: "Sports science and athletic training methodologies.",
-        category: "Sports"
-      },
-      { 
-        title: "Business Strategy", 
-        author: "Emma Entrepreneur", 
+      {
+        title: "Programming Fundamentals",
+        author: "Ravi Singh",
         rating: 4.6,
-        students: 2100,
-        duration: "7h 30m",
-        description: "Learn business strategies for startups and established companies.",
+        students: 3500,
+        duration: "360 pages",
+        description: "Build strong coding foundations with clear explanations and practical examples.",
+        category: "Technology"
+      },
+      {
+        title: "Business & Leadership",
+        author: "Emma Clarke",
+        rating: 4.4,
+        students: 900,
+        duration: "240 pages",
+        description: "Strategy, leadership, and decision-making lessons for modern teams.",
         category: "Business"
       },
+      {
+        title: "Wellness & Mindfulness",
+        author: "Maya Patel",
+        rating: 4.7,
+        students: 2100,
+        duration: "200 pages",
+        description: "Practical habits and calm routines for a healthier, more focused life.",
+        category: "Wellness"
+      },
     ],
     [
-      { 
-        title: "Science Book", 
-        author: "Dr. Smith", 
-        rating: 4.4,
+      {
+        title: "Science Essentials",
+        author: "Dr. Hannah Lee",
+        rating: 4.5,
         students: 1500,
-        duration: "9h 15m",
-        description: "Explore the latest discoveries in modern science.",
+        duration: "300 pages",
+        description: "Explore the fundamentals of modern science in an accessible format.",
         category: "Science"
       },
-      { 
-        title: "Art History", 
-        author: "Prof. Art", 
+      {
+        title: "History in Focus",
+        author: "James Carter",
         rating: 4.9,
         students: 1100,
-        duration: "6h 45m",
-        description: "Journey through art history from Renaissance to Modern.",
-        category: "Art"
+        duration: "260 pages",
+        description: "A sweeping look at pivotal moments that shaped the world.",
+        category: "History"
       },
-      { 
-        title: "Cooking Guide", 
-        author: "Chef Maria", 
-        rating: 4.7,
+      {
+        title: "Cooking at Home",
+        author: "Chef Maria",
+        rating: 4.6,
         students: 2800,
-        duration: "5h 00m",
-        description: "Master cooking techniques from around the world.",
+        duration: "180 pages",
+        description: "Everyday recipes, smart techniques, and flavors you can trust.",
         category: "Cooking"
       },
     ],
@@ -126,9 +126,9 @@ function FreeCourse() {
     <section id="free-courses" className="font-poppins bg-gradient-to-b from-white to-gray-50 py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="Free Courses"
-          title="Explore Free Offered Courses"
-          description="Discover amazing free courses to enhance your skills and knowledge. Start learning today!"
+          badge="Free Reads"
+          title="Explore our featured reading guides"
+          description="Browse editor-picked collections to help you find your next great book."
         />
 
         {/* Cards Grid */}
@@ -193,3 +193,4 @@ function FreeCourse() {
 }
 
 export default FreeCourse;
+

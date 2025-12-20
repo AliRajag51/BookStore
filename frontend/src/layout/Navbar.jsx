@@ -26,7 +26,7 @@ function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             <nav>
               <ul className="flex gap-8 font-medium text-gray-700">
-                {["Home", "Course", "Contact", "About"].map((item) => (
+                {["Home", "Books", "Contact", "About"].map((item) => (
                   <li
                     key={item}
                     className="cursor-pointer hover:text-black transition text-lg"
@@ -40,13 +40,13 @@ function Navbar() {
             <div className="flex items-center bg-white px-4 py-2 rounded-xl border border-gray-300 shadow-sm min-w-[200px]">
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search titles, authors, or genres"
                 className="outline-none text-base w-full placeholder-gray-400"
               />
             </div>
 
             <button className="text-xl p-2 rounded-full hover:bg-gray-100 transition">
-              🌙
+              Cart
             </button>
           </div>
 
@@ -63,7 +63,7 @@ function Navbar() {
             className="md:hidden text-3xl"
             onClick={() => setOpen(!open)}
           >
-            ☰
+            Menu
           </button>
         </div>
 
@@ -72,7 +72,7 @@ function Navbar() {
           <div className="md:hidden mt-4 bg-white rounded-xl shadow-md p-4 space-y-4">
             <nav>
               <ul className="flex flex-col gap-4 text-lg text-gray-700">
-                {["Home", "Course", "Contact", "About"].map((item) => (
+                {["Home", "Books", "Contact", "About"].map((item) => (
                   <li key={item} className="cursor-pointer hover:text-black">
                     {item}
                   </li>
@@ -83,7 +83,7 @@ function Navbar() {
             <div className="flex items-center bg-white px-4 py-2 border border-gray-300 rounded-xl shadow-sm">
               <input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search titles, authors, or genres"
                 className="outline-none text-base w-full"
               />
             </div>
@@ -135,3 +135,8 @@ function Navbar() {
 }
 
 export default Navbar;
+
+
+
+
+

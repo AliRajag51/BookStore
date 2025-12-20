@@ -99,7 +99,7 @@ function ContactUs() {
                 <div className="bg-gradient-to-br from-pink-50 to-purple-50 rounded-xl h-48 md:h-64 flex items-center justify-center">
                   <div className="text-center">
                     <MapPin className="w-12 h-12 text-pink-400 mx-auto mb-3" />
-                    <p className="text-gray-500">Interactive map would appear here</p>
+                    <p className="text-gray-500">Visit our store or schedule a pickup</p>
                   </div>
                 </div>
               </div>

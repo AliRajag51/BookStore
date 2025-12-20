@@ -18,7 +18,7 @@ function Footer() {
       </div>
 
       <p className="text-sm">
-        Copyright © 2024 – All right reserved by ACME Industries Ltd
+        Copyright � 2024 Book Store. All rights reserved.
       </p>
 
     </footer>
@@ -26,3 +26,4 @@ function Footer() {
 }
 
 export default Footer;
+

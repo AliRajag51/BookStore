@@ -11,16 +11,16 @@ function Banner() {
           {/* Left Content */}
           <div className="flex-1 w-full lg:w-1/2">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-gray-900">
-              Hello, welcomes here to learn{" "}
+              Discover your next favorite{" "}
               <span className="text-pink-500 block sm:inline">
-                something new everyday!!!
+                book, every week
               </span>
             </h1>
 
             <p className="mt-4 sm:mt-6 text-gray-600 text-base sm:text-lg lg:text-xl max-w-xl">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolor,
-              et totam. Tempora amet atque expedita, quae corrupti totam sed
-              pariatur corporis at veniam est voluptas animi!
+              Curated reading lists, new releases, and timeless classics
+              delivered straight to your shelf. Join a community that reads
+              with purpose.
             </p>
 
             {/* Email Input & Button */}
@@ -28,7 +28,7 @@ function Banner() {
               <div className="flex-1">
                 <input
                   type="email"
-                  placeholder="Enter your email to login"
+                  placeholder="Enter your email for reading updates"
                   className="w-full px-4 py-3 sm:py-4 border rounded-lg outline-none focus:ring-2 focus:ring-pink-400 text-base"
                 />
               </div>
@@ -45,7 +45,7 @@ function Banner() {
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
               >
-                Explore Free Courses
+                Explore featured reads
               </Button>
             </div>
 
@@ -56,7 +56,7 @@ function Banner() {
                   10K+
                 </div>
                 <div className="text-gray-600 text-sm sm:text-base">
-                  Students
+                  Readers
                 </div>
               </div>
 
@@ -65,7 +65,7 @@ function Banner() {
                   100+
                 </div>
                 <div className="text-gray-600 text-sm sm:text-base">
-                  Courses
+                  Curated Lists
                 </div>
               </div>
 
