@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, Book, ArrowRight, AlertCircle, X, LogIn } from "lucide-react";
+import InputField from "../../components/Auth/InputField.jsx";
 
 function SignUpPage({ onClose, onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -130,98 +131,67 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  First Name
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    placeholder="John"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all duration-200 text-sm sm:text-base"
-                    required
-                  />
-                </div>
-              </div>
+              <InputField
+                label="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                placeholder="John"
+                icon={<User className="h-5 w-5 text-gray-400" />}
+                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                required
+              />
               
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Last Name
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <User className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    placeholder="Doe"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all duration-200 text-sm sm:text-base"
-                    required
-                  />
-                </div>
-              </div>
+              <InputField
+                label="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                placeholder="Doe"
+                icon={<User className="h-5 w-5 text-gray-400" />}
+                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                required
+              />
             </div>
 
             {/* Email */}
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Email Address
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="you@example.com"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all duration-200 text-sm sm:text-base"
-                  required
-                />
-              </div>
-            </div>
+            <InputField
+              label="Email Address"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="you@example.com"
+              icon={<Mail className="h-5 w-5 text-gray-400" />}
+              className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+              required
+            />
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Password
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Create a strong password"
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none transition-all duration-200 text-sm sm:text-base"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
-                  )}
-                </button>
-              </div>
+              <InputField
+                label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Create a strong password"
+                icon={<Lock className="h-5 w-5 text-gray-400" />}
+                rightElement={
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    )}
+                  </button>
+                }
+                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                required
+              />
               <p className="text-xs text-gray-500 mt-2">
                 Must be at least 8 characters with letters and numbers
               </p>
@@ -331,3 +301,4 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
 }
 
 export default SignUpPage;
+

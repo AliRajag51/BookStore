@@ -10,6 +10,7 @@ import {
   AlertCircle,
   X,
 } from "lucide-react";
+import InputField from "../../components/Auth/InputField.jsx";
 
 function LoginPage({ onClose, onSwitchToSignup }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -102,44 +103,30 @@ function LoginPage({ onClose, onSwitchToSignup }) {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Email */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="you@example.com"
-                    className="w-full pl-10 pr-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-black"
-                    required
-                  />
-                </div>
-              </div>
+              <InputField
+                label="Email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="you@example.com"
+                icon={<Mail className="w-5 h-5 text-gray-400" />}
+                required
+              />
 
               {/* Password */}
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Password
-                </label>
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-12 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-black"
-                    required
-                  />
+              <InputField
+                label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                icon={<Lock className="w-5 h-5 text-gray-400" />}
+                rightElement={
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2"
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5 text-gray-400" />
@@ -147,8 +134,9 @@ function LoginPage({ onClose, onSwitchToSignup }) {
                       <Eye className="w-5 h-5 text-gray-400" />
                     )}
                   </button>
-                </div>
-              </div>
+                }
+                required
+              />
 
               <div className="flex justify-between items-center">
                 <label className="flex items-center gap-2 text-sm">
@@ -198,3 +186,5 @@ function LoginPage({ onClose, onSwitchToSignup }) {
 }
 
 export default LoginPage;
+
+

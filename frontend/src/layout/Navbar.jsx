@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import SignUpPage from "./signUpPage.jsx";
-import LoginPage from "../pages/Home/loginPage";
+import SignUpPage from "../pages/Signup/signUpPage.jsx";
+import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
 
 function Navbar() {
