@@ -1,9 +1,7 @@
 import React from "react";
 import bannerImage from "../../assets/banner-image.png";
-import Button from "../../components/Button/Button.jsx";
 
-
-function Banner() {
+function HeroSection() {
   return (
     <section id="home" className="font-poppins  from-white to-gray-50">
       <div className="max-w-7xl mx-auto py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
@@ -23,30 +21,36 @@ function Banner() {
               with purpose.
             </p>
 
-            {/* Email Input & Button */}
-            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <input
-                  type="email"
-                  placeholder="Enter your email for reading updates"
-                  className="w-full px-4 py-3 sm:py-4 border rounded-lg outline-none focus:ring-2 focus:ring-pink-400 text-base"
-                />
+            {/* Highlights */}
+            <div className="mt-6 sm:mt-8">
+              <div className="flex-1 rounded-xl border border-pink-100 bg-pink-50/50 p-4">
+                <p className="text-sm text-pink-600 font-medium">
+                  This week&apos;s highlights
+                </p>
+                <p className="mt-1 text-gray-700 text-base sm:text-lg">
+                  Fresh releases, staff picks, and indie gems curated for you.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a
+                    href="#fiction"
+                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                  >
+                    Fiction
+                  </a>
+                  <a
+                    href="#mystery"
+                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                  >
+                    Mystery
+                  </a>
+                  <a
+                    href="#mystery"
+                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                  >
+                    Business
+                  </a>
+                </div>
               </div>
-               <Button
-                className="
-                  px-6 py-3 sm:py-4
-                  text-base sm:text-lg
-                  rounded-lg
-                  whitespace-nowrap
-                "
-                onClick={() => {
-                  document
-                    .getElementById("free-courses")
-                    ?.scrollIntoView({ behavior: "smooth" });
-                }}
-              >
-                Explore featured reads
-              </Button>
             </div>
 
             {/* Stats */}
@@ -92,4 +96,4 @@ function Banner() {
   );
 }
 
-export default Banner;
+export default HeroSection;

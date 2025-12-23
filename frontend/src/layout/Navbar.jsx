@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Menu, ShoppingCart } from "lucide-react";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
@@ -51,14 +52,16 @@ function Navbar() {
             </div>
 
             <button
-              className="text-xl p-2 rounded-full hover:bg-gray-100 transition"
+              className="p-2 rounded-full hover:bg-gray-100 transition"
               onClick={() => {
                 document
                   .getElementById("free-courses")
                   ?.scrollIntoView({ behavior: "smooth" });
               }}
+              aria-label="View cart"
+              type="button"
             >
-              Cart
+              <ShoppingCart className="w-5 h-5 text-gray-700" />
             </button>
           </div>
 
@@ -72,10 +75,12 @@ function Navbar() {
 
           {/* Hamburger */}
           <button
-            className="md:hidden text-3xl"
+            className="md:hidden p-2 rounded-full hover:bg-gray-100 transition"
             onClick={() => setOpen(!open)}
+            aria-label="Open menu"
+            type="button"
           >
-            Menu
+            <Menu className="w-6 h-6 text-gray-700" />
           </button>
         </div>
 
@@ -105,15 +110,29 @@ function Navbar() {
               />
             </div>
 
-            <Button1
-              onClick={() => {
-                setShowLogin(true);
-                setOpen(false);
-              }}
-              className="px-5 w-full"
-            >
-              Login
-            </Button1>
+            <div className="flex items-center justify-between gap-3">
+              <button
+                className="p-2 rounded-full hover:bg-gray-100 transition"
+                onClick={() => {
+                  document
+                    .getElementById("free-courses")
+                    ?.scrollIntoView({ behavior: "smooth" });
+                }}
+                aria-label="View cart"
+                type="button"
+              >
+                <ShoppingCart className="w-5 h-5 text-gray-700" />
+              </button>
+              <Button1
+                onClick={() => {
+                  setShowLogin(true);
+                  setOpen(false);
+                }}
+                className="px-5 w-full"
+              >
+                Login
+              </Button1>
+            </div>
           </div>
         )}
       </header>

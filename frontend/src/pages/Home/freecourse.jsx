@@ -133,16 +133,27 @@ function FreeCourse() {
 
         {/* Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {pages[activePage].map((course, index) => (
-            <CourseCard
-              key={index}
-              course={course}
-              image={BannerImage}
-              isFavorite={Boolean(favorites[index])}
-              onToggleFavorite={() => toggleFavorite(index)}
-              onBuyNow={() => handleBuyNow(course)}
-            />
-          ))}
+          {pages[activePage].map((course, index) => {
+            const anchorId = course.category === "Fiction"
+              ? "fiction"
+              : course.category === "Mystery"
+                ? "mystery"
+                : course.category === "Business"
+                  ? "business"
+                  : undefined;
+
+            return (
+              <div key={index} id={anchorId}>
+                <CourseCard
+                  course={course}
+                  image={BannerImage}
+                  isFavorite={Boolean(favorites[index])}
+                  onToggleFavorite={() => toggleFavorite(index)}
+                  onBuyNow={() => handleBuyNow(course)}
+                />
+              </div>
+            );
+          })}
         </div>
 
         {/* Navigation Controls */}
