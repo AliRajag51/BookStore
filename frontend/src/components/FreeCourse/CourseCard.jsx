@@ -1,7 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Heart, Share2, Star, Clock, Users } from "lucide-react";
 
-function CourseCard({ course, image, isFavorite, onToggleFavorite, onBuyNow }) {
+function CourseCard({
+  course,
+  image,
+  isFavorite,
+  onToggleFavorite,
+  onAddToCart,
+  detailsHref,
+}) {
   return (
     <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-2">
       {/* Image Container with Hover Effect */}
@@ -12,6 +20,17 @@ function CourseCard({ course, image, isFavorite, onToggleFavorite, onBuyNow }) {
             alt={course.title}
             className="w-full h-48 object-contain group-hover:scale-110 transition-transform duration-500 ease-out"
           />
+
+          {detailsHref && (
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+              <Link
+                to={detailsHref}
+                className="px-4 py-2 text-sm bg-white/90 rounded-full shadow hover:bg-white transition"
+              >
+                View details
+              </Link>
+            </div>
+          )}
 
           {/* Favorite Button */}
           <button
@@ -76,10 +95,10 @@ function CourseCard({ course, image, isFavorite, onToggleFavorite, onBuyNow }) {
             <span className="text-gray-400 line-through ml-2">$49.99</span>
           </div>
           <button
-            onClick={onBuyNow}
+            onClick={onAddToCart}
             className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-full hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0"
           >
-            Buy Now
+            Add to cart
           </button>
         </div>
       </div>
