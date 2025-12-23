@@ -5,11 +5,18 @@ import SecurityNotice from "../../components/BuyNowModal/SecurityNotice.jsx";
 import GuaranteeBox from "../../components/BuyNowModal/GuaranteeBox.jsx";
 import useCart from "../../hooks/useCart.js";
 import bannerImage from "../../assets/banner-image.png";
+import { isValidEmail } from "../../utils/validation.js";
 
 function CheckoutPage() {
   const { items, updateQuantity, removeItem, clearCart } = useCart();
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    address: "",
+  });
+  const [errors, setErrors] = useState({});
 
   return (
     <section className="font-poppins py-16 bg-gradient-to-b from-white to-gray-50">
@@ -132,8 +139,23 @@ function CheckoutPage() {
                       <input
                         type="text"
                         placeholder="Alex Johnson"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
+                        value={formData.fullName}
+                        onChange={(e) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            fullName: e.target.value,
+                          }));
+                          setErrors((prev) => ({ ...prev, fullName: "" }));
+                        }}
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
+                          errors.fullName ? "border-red-300" : "border-gray-300"
+                        }`}
                       />
+                      {errors.fullName && (
+                        <p className="mt-2 text-sm text-red-600" role="alert">
+                          {errors.fullName}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -142,8 +164,23 @@ function CheckoutPage() {
                       <input
                         type="email"
                         placeholder="you@example.com"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
+                        value={formData.email}
+                        onChange={(e) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            email: e.target.value,
+                          }));
+                          setErrors((prev) => ({ ...prev, email: "" }));
+                        }}
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
+                          errors.email ? "border-red-300" : "border-gray-300"
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="mt-2 text-sm text-red-600" role="alert">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -152,8 +189,23 @@ function CheckoutPage() {
                       <input
                         type="text"
                         placeholder="123 Book Street, Reading City"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none"
+                        value={formData.address}
+                        onChange={(e) => {
+                          setFormData((prev) => ({
+                            ...prev,
+                            address: e.target.value,
+                          }));
+                          setErrors((prev) => ({ ...prev, address: "" }));
+                        }}
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-black focus:border-transparent outline-none ${
+                          errors.address ? "border-red-300" : "border-gray-300"
+                        }`}
                       />
+                      {errors.address && (
+                        <p className="mt-2 text-sm text-red-600" role="alert">
+                          {errors.address}
+                        </p>
+                      )}
                     </div>
                   </form>
 
@@ -186,12 +238,35 @@ function CheckoutPage() {
                     type="button"
                     className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:from-pink-600 hover:to-purple-700 transition"
                     onClick={() => {
+                      const nextErrors = {};
+                      const fullName = formData.fullName.trim();
+                      const emailValue = formData.email.trim();
+                      const addressValue = formData.address.trim();
+
                       if (items.length === 0) {
                         return;
                       }
+                      if (!fullName) {
+                        nextErrors.fullName = "Full name is required.";
+                      }
+                      if (!emailValue) {
+                        nextErrors.email = "Email is required.";
+                      } else if (!isValidEmail(emailValue)) {
+                        nextErrors.email = "Enter a valid email address.";
+                      }
+                      if (!addressValue) {
+                        nextErrors.address = "Address is required.";
+                      }
+
+                      if (Object.keys(nextErrors).length > 0) {
+                        setErrors(nextErrors);
+                        return;
+                      }
+
                       setIsSubmitted(true);
                       clearCart();
                     }}
+                    disabled={items.length === 0}
                   >
                     Place order
                   </button>

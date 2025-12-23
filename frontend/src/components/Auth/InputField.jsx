@@ -3,6 +3,7 @@ import React from "react";
 function InputField({
   label,
   name,
+  id,
   type = "text",
   value,
   onChange,
@@ -11,7 +12,9 @@ function InputField({
   rightElement,
   required = false,
   className = "",
+  error,
 }) {
+  const inputId = id || name;
   const baseClassName =
     "w-full pl-10 pr-4 py-3 border rounded-xl outline-none focus:ring-2 focus:ring-black";
   const inputClassName = rightElement
@@ -20,7 +23,10 @@ function InputField({
 
   return (
     <div>
-      <label className="block text-sm font-semibold text-gray-700 mb-2">
+      <label
+        htmlFor={inputId}
+        className="block text-sm font-semibold text-gray-700 mb-2"
+      >
         {label}
       </label>
       <div className="relative">
@@ -30,6 +36,7 @@ function InputField({
           </div>
         )}
         <input
+          id={inputId}
           type={type}
           name={name}
           value={value}
@@ -37,6 +44,7 @@ function InputField({
           placeholder={placeholder}
           className={inputClassName.trim()}
           required={required}
+          aria-invalid={Boolean(error)}
         />
         {rightElement && (
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
@@ -44,6 +52,11 @@ function InputField({
           </div>
         )}
       </div>
+      {error && (
+        <p className="mt-2 text-sm text-red-600" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

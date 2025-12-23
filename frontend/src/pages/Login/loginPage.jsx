@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import InputField from "../../components/Auth/InputField.jsx";
+import { isValidEmail } from "../../utils/validation.js";
 
 function LoginPage({ onClose, onSwitchToSignup }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,17 +20,40 @@ function LoginPage({ onClose, onSwitchToSignup }) {
     email: "",
     password: "",
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Login attempt:", formData);
+    const nextErrors = {};
+    const emailValue = formData.email.trim();
+    const passwordValue = formData.password.trim();
+
+    if (!emailValue) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(emailValue)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+
+    if (!passwordValue) {
+      nextErrors.password = "Password is required.";
+    } else if (passwordValue.length < 6) {
+      nextErrors.password = "Password must be at least 6 characters.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      return;
+    }
+
+    // Submit login here
   };
 
   const handleClose = () => {
@@ -111,6 +135,8 @@ function LoginPage({ onClose, onSwitchToSignup }) {
                 onChange={handleChange}
                 placeholder="you@example.com"
                 icon={<Mail className="w-5 h-5 text-gray-400" />}
+                className={errors.email ? "border-red-300 focus:ring-red-500" : ""}
+                error={errors.email}
                 required
               />
 
@@ -135,6 +161,8 @@ function LoginPage({ onClose, onSwitchToSignup }) {
                     )}
                   </button>
                 }
+                className={errors.password ? "border-red-300 focus:ring-red-500" : ""}
+                error={errors.password}
                 required
               />
 

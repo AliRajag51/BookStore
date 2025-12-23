@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, Book, ArrowRight, AlertCircle, X, LogIn } from "lucide-react";
 import InputField from "../../components/Auth/InputField.jsx";
+import { isValidEmail } from "../../utils/validation.js";
 
 function SignUpPage({ onClose, onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,18 +12,51 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
     password: ""
   });
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Sign up attempt with:", formData);
-    // Add your signup logic here
+    const nextErrors = {};
+    const firstName = formData.firstName.trim();
+    const lastName = formData.lastName.trim();
+    const emailValue = formData.email.trim();
+    const passwordValue = formData.password.trim();
+
+    if (!firstName) {
+      nextErrors.firstName = "First name is required.";
+    }
+    if (!lastName) {
+      nextErrors.lastName = "Last name is required.";
+    }
+    if (!emailValue) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(emailValue)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+    if (!passwordValue) {
+      nextErrors.password = "Password is required.";
+    } else if (passwordValue.length < 8) {
+      nextErrors.password = "Password must be at least 8 characters.";
+    }
+
+    if (!acceptTerms) {
+      nextErrors.terms = "Please accept the terms to continue.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      return;
+    }
+
+    // Submit signup here
   };
 
   const handleClose = (e) => {
@@ -138,7 +172,10 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
                 onChange={handleChange}
                 placeholder="John"
                 icon={<User className="h-5 w-5 text-gray-400" />}
-                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                className={`border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                  errors.firstName ? "border-red-300 focus:ring-red-500" : ""
+                }`}
+                error={errors.firstName}
                 required
               />
               
@@ -149,7 +186,10 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
                 onChange={handleChange}
                 placeholder="Doe"
                 icon={<User className="h-5 w-5 text-gray-400" />}
-                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                className={`border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                  errors.lastName ? "border-red-300 focus:ring-red-500" : ""
+                }`}
+                error={errors.lastName}
                 required
               />
             </div>
@@ -163,7 +203,10 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
               onChange={handleChange}
               placeholder="you@example.com"
               icon={<Mail className="h-5 w-5 text-gray-400" />}
-              className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+              className={`border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                errors.email ? "border-red-300 focus:ring-red-500" : ""
+              }`}
+              error={errors.email}
               required
             />
 
@@ -189,7 +232,10 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
                     )}
                   </button>
                 }
-                className="border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base"
+                className={`border-gray-300 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                  errors.password ? "border-red-300 focus:ring-red-500" : ""
+                }`}
+                error={errors.password}
                 required
               />
               <p className="text-xs text-gray-500 mt-2">
@@ -218,6 +264,11 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
                 </button>
               </label>
             </div>
+            {errors.terms && (
+              <p className="text-sm text-red-600" role="alert">
+                {errors.terms}
+              </p>
+            )}
 
             {/* Sign Up Button */}
             <button

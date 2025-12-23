@@ -4,6 +4,7 @@ import SectionHeader from "../../components/ContactUs/SectionHeader.jsx";
 import ContactInfoItem from "../../components/ContactUs/ContactInfoItem.jsx";
 import SuccessMessage from "../../components/ContactUs/SuccessMessage.jsx";
 import NextStepItem from "../../components/ContactUs/NextStepItem.jsx";
+import { isValidEmail } from "../../utils/validation.js";
 
 function ContactUs() {
   const [formData, setFormData] = useState({
@@ -14,16 +15,46 @@ function ContactUs() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const nextErrors = {};
+    const nameValue = formData.name.trim();
+    const emailValue = formData.email.trim();
+    const subjectValue = formData.subject.trim();
+    const messageValue = formData.message.trim();
+
+    if (!nameValue) {
+      nextErrors.name = "Name is required.";
+    }
+    if (!emailValue) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(emailValue)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+    if (!subjectValue) {
+      nextErrors.subject = "Subject is required.";
+    }
+    if (!messageValue) {
+      nextErrors.message = "Message is required.";
+    } else if (messageValue.length < 10) {
+      nextErrors.message = "Message should be at least 10 characters.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      return;
+    }
+
     setIsSubmitting(true);
     
     // Simulate API call
@@ -139,8 +170,15 @@ function ContactUs() {
                         onChange={handleChange}
                         required
                         placeholder="John Doe"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
+                          errors.name ? "border-red-300" : "border-gray-300"
+                        }`}
                       />
+                      {errors.name && (
+                        <p className="mt-2 text-sm text-red-600" role="alert">
+                          {errors.name}
+                        </p>
+                      )}
                     </div>
                     
                     <div>
@@ -155,8 +193,15 @@ function ContactUs() {
                         onChange={handleChange}
                         required
                         placeholder="you@example.com"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
+                        className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
+                          errors.email ? "border-red-300" : "border-gray-300"
+                        }`}
                       />
+                      {errors.email && (
+                        <p className="mt-2 text-sm text-red-600" role="alert">
+                          {errors.email}
+                        </p>
+                      )}
                     </div>
                   </div>
 
@@ -171,8 +216,15 @@ function ContactUs() {
                       onChange={handleChange}
                       required
                       placeholder="How can we help?"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition"
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition ${
+                        errors.subject ? "border-red-300" : "border-gray-300"
+                      }`}
                     />
+                    {errors.subject && (
+                      <p className="mt-2 text-sm text-red-600" role="alert">
+                        {errors.subject}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -186,8 +238,15 @@ function ContactUs() {
                       required
                       rows="6"
                       placeholder="Tell us more about your inquiry..."
-                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition resize-none"
+                      className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition resize-none ${
+                        errors.message ? "border-red-300" : "border-gray-300"
+                      }`}
                     />
+                    {errors.message && (
+                      <p className="mt-2 text-sm text-red-600" role="alert">
+                        {errors.message}
+                      </p>
+                    )}
                   </div>
 
                   <button
