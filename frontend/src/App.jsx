@@ -1,10 +1,20 @@
-import HomePage from "./pages/Home/HomePage";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./layout/index.jsx";
+import HomePage from "./pages/Home/HomePage.jsx";
+import ProductDetails from "./pages/Product/ProductDetails.jsx";
+import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
 
 function App() {
   return (
-    <div>
-      <HomePage />
-    </div>
+    <BrowserRouter>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/books/:id" element={<ProductDetails />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+        </Routes>
+      </Layout>
+    </BrowserRouter>
   );
 }
 

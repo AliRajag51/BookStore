@@ -138,7 +138,7 @@ function AboutUs() {
             </p>
 
             <a
-              href="#free-courses"
+              href="/#free-courses"
               className="inline-flex px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5"
             >
               Explore Our Collection
@@ -230,13 +230,13 @@ function AboutUs() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="#free-courses"
+              href="/#free-courses"
               className="inline-flex px-6 py-3 bg-white text-pink-600 font-semibold rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-0.5"
             >
               Explore Books
             </a>
             <a
-              href="#contact"
+              href="/#contact"
               className="inline-flex px-6 py-3 bg-pink-700 text-white font-semibold rounded-xl hover:bg-pink-800 transition transform hover:-translate-y-0.5"
             >
               Join Our Community
@@ -249,3 +249,4 @@ function AboutUs() {
 }
 
 export default AboutUs;
+

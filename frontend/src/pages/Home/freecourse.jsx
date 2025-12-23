@@ -1,115 +1,20 @@
 import React, { useState } from "react";
 import BannerImage from "../../assets/banner-image.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import BuyNowModal from "./BuyNowModal";
 import SectionHeader from "../../components/FreeCourse/SectionHeader.jsx";
 import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
+import { pages } from "../../data/books.js";
+import useCart from "../../hooks/useCart.js";
 
 function FreeCourse() {
-  const pages = [
-    [
-      {
-        title: "Modern Fiction Picks",
-        author: "Ava Martinez",
-        rating: 4.7,
-        students: 1200,
-        duration: "320 pages",
-        description: "A curated set of contemporary novels with big ideas and page-turning plots.",
-        category: "Fiction"
-      },
-      {
-        title: "Mystery & Thrillers",
-        author: "Noah Brooks",
-        rating: 4.8,
-        students: 2400,
-        duration: "280 pages",
-        description: "Edge-of-your-seat reads with twists, suspense, and unforgettable detectives.",
-        category: "Mystery"
-      },
-      {
-        title: "Design & Creativity",
-        author: "Lena Park",
-        rating: 4.5,
-        students: 1800,
-        duration: "210 pages",
-        description: "A visual guide to design thinking, typography, and modern creative practice.",
-        category: "Art & Design"
-      },
-    ],
-    [
-      {
-        title: "Programming Fundamentals",
-        author: "Ravi Singh",
-        rating: 4.6,
-        students: 3500,
-        duration: "360 pages",
-        description: "Build strong coding foundations with clear explanations and practical examples.",
-        category: "Technology"
-      },
-      {
-        title: "Business & Leadership",
-        author: "Emma Clarke",
-        rating: 4.4,
-        students: 900,
-        duration: "240 pages",
-        description: "Strategy, leadership, and decision-making lessons for modern teams.",
-        category: "Business"
-      },
-      {
-        title: "Wellness & Mindfulness",
-        author: "Maya Patel",
-        rating: 4.7,
-        students: 2100,
-        duration: "200 pages",
-        description: "Practical habits and calm routines for a healthier, more focused life.",
-        category: "Wellness"
-      },
-    ],
-    [
-      {
-        title: "Science Essentials",
-        author: "Dr. Hannah Lee",
-        rating: 4.5,
-        students: 1500,
-        duration: "300 pages",
-        description: "Explore the fundamentals of modern science in an accessible format.",
-        category: "Science"
-      },
-      {
-        title: "History in Focus",
-        author: "James Carter",
-        rating: 4.9,
-        students: 1100,
-        duration: "260 pages",
-        description: "A sweeping look at pivotal moments that shaped the world.",
-        category: "History"
-      },
-      {
-        title: "Cooking at Home",
-        author: "Chef Maria",
-        rating: 4.6,
-        students: 2800,
-        duration: "180 pages",
-        description: "Everyday recipes, smart techniques, and flavors you can trust.",
-        category: "Cooking"
-      },
-    ],
-  ];
-
   const [activePage, setActivePage] = useState(0);
-  const [selectedCourse, setSelectedCourse] = useState(null);
-  const [showBuyNowModal, setShowBuyNowModal] = useState(false);
   const [favorites, setFavorites] = useState({});
+  const { addItem } = useCart();
 
-  const handleBuyNow = (course) => {
-    setSelectedCourse(course);
-    setShowBuyNowModal(true);
-  };
-
-  const toggleFavorite = (index) => {
+  const toggleFavorite = (id) => {
     setFavorites(prev => ({
       ...prev,
-      [index]: !prev[index]
+      [id]: !prev[id]
     }));
   };
 
@@ -133,23 +38,18 @@ function FreeCourse() {
 
         {/* Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {pages[activePage].map((course, index) => {
-            const anchorId = course.category === "Fiction"
-              ? "fiction"
-              : course.category === "Mystery"
-                ? "mystery"
-                : course.category === "Business"
-                  ? "business"
-                  : undefined;
+          {pages[activePage].map((course) => {
+            const anchorId = course.anchor;
 
             return (
-              <div key={index} id={anchorId}>
+              <div key={course.id} id={anchorId}>
                 <CourseCard
                   course={course}
                   image={BannerImage}
-                  isFavorite={Boolean(favorites[index])}
-                  onToggleFavorite={() => toggleFavorite(index)}
-                  onBuyNow={() => handleBuyNow(course)}
+                  isFavorite={Boolean(favorites[course.id])}
+                  onToggleFavorite={() => toggleFavorite(course.id)}
+                  onAddToCart={() => addItem(course)}
+                  detailsHref={`/books/${course.id}`}
                 />
               </div>
             );
@@ -189,16 +89,6 @@ function FreeCourse() {
         </div>
       </div>
 
-      {/* Buy Now Modal */}
-      {showBuyNowModal && selectedCourse && (
-        <BuyNowModal
-          course={selectedCourse}
-          onClose={() => {
-            setShowBuyNowModal(false);
-            setSelectedCourse(null);
-          }}
-        />
-      )}
     </section>
   );
 }

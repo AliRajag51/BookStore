@@ -3,11 +3,13 @@ import { Menu, ShoppingCart } from "lucide-react";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
+import useCart from "../hooks/useCart.js";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const { itemCount, openCart } = useCart();
 
   return (
     <>
@@ -16,7 +18,7 @@ function Navbar() {
         <div className="flex items-center justify-between font-poppins max-w-7xl mx-auto">
 
           {/* Logo */}
-          <a href="#home" className="flex items-center space-x-2 cursor-pointer">
+          <a href="/#home" className="flex items-center space-x-2 cursor-pointer">
             <div className="w-10 h-10 bg-black text-white rounded-lg flex items-center justify-center shadow-md">
               <span className="font-bold text-lg">BS</span>
             </div>
@@ -28,10 +30,10 @@ function Navbar() {
             <nav>
               <ul className="flex gap-8 font-medium text-gray-700">
                 {[
-                  { label: "Home", href: "#home" },
-                  { label: "Books", href: "#free-courses" },
-                  { label: "Contact", href: "#contact" },
-                  { label: "About", href: "#about" },
+                  { label: "Home", href: "/#home" },
+                  { label: "Books", href: "/#free-courses" },
+                  { label: "Contact", href: "/#contact" },
+                  { label: "About", href: "/#about" },
                 ].map((item) => (
                   <li
                     key={item.label}
@@ -52,16 +54,17 @@ function Navbar() {
             </div>
 
             <button
-              className="p-2 rounded-full hover:bg-gray-100 transition"
-              onClick={() => {
-                document
-                  .getElementById("free-courses")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
+              className="relative p-2 rounded-full hover:bg-gray-100 transition"
+              onClick={openCart}
               aria-label="View cart"
               type="button"
             >
               <ShoppingCart className="w-5 h-5 text-gray-700" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 text-[10px] rounded-full bg-pink-500 text-white flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </div>
 
@@ -90,10 +93,10 @@ function Navbar() {
             <nav>
               <ul className="flex flex-col gap-4 text-lg text-gray-700">
                 {[
-                  { label: "Home", href: "#home" },
-                  { label: "Books", href: "#free-courses" },
-                  { label: "Contact", href: "#contact" },
-                  { label: "About", href: "#about" },
+                  { label: "Home", href: "/#home" },
+                  { label: "Books", href: "/#free-courses" },
+                  { label: "Contact", href: "/#contact" },
+                  { label: "About", href: "/#about" },
                 ].map((item) => (
                   <li key={item.label} className="cursor-pointer hover:text-black">
                     <a href={item.href}>{item.label}</a>
@@ -112,16 +115,20 @@ function Navbar() {
 
             <div className="flex items-center justify-between gap-3">
               <button
-                className="p-2 rounded-full hover:bg-gray-100 transition"
+                className="relative p-2 rounded-full hover:bg-gray-100 transition"
                 onClick={() => {
-                  document
-                    .getElementById("free-courses")
-                    ?.scrollIntoView({ behavior: "smooth" });
+                  openCart();
+                  setOpen(false);
                 }}
                 aria-label="View cart"
                 type="button"
               >
                 <ShoppingCart className="w-5 h-5 text-gray-700" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 text-[10px] rounded-full bg-pink-500 text-white flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
               </button>
               <Button1
                 onClick={() => {

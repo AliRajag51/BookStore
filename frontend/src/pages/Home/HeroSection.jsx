@@ -32,20 +32,20 @@ function HeroSection() {
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   <a
-                    href="#fiction"
-                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                    href="/#fiction"
+                    className="inline-flex items-center px-4 py-2 text-sm rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
                   >
                     Fiction
                   </a>
                   <a
-                    href="#mystery"
-                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                    href="/#business"
+                    className="inline-flex items-center px-4 py-2 text-sm rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
                   >
                     Mystery
                   </a>
                   <a
-                    href="#mystery"
-                    className="px-3 py-1 text-xs rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
+                    href="/#mystery"
+                    className="inline-flex items-center px-4 py-2 text-sm rounded-full bg-white text-gray-600 border border-gray-200 hover:border-pink-200 hover:text-pink-600 transition"
                   >
                     Business
                   </a>
@@ -97,3 +97,5 @@ function HeroSection() {
 }
 
 export default HeroSection;
+
+

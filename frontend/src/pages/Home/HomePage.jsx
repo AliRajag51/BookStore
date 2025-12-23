@@ -1,22 +1,18 @@
-import React from 'react'
-import Layout from '../../layout/index.jsx'
+import React from "react";
 import HeroSection from "./HeroSection.jsx";
-import Freecourse from "./freecourse.jsx";
-import ContactUs from './ContactUs.jsx'
-import AboutUs from './AboutUs.jsx'
-
+import FreeCourse from "./FreeCourse.jsx";
+import ContactUs from "./ContactUs.jsx";
+import AboutUs from "./AboutUs.jsx";
 
 function HomePage() {
   return (
-    <div>
-      <Layout>
+    <main className="flex flex-col gap-16 md:gap-20">
       <HeroSection />
-      <Freecourse />
+      <FreeCourse />
       <AboutUs />
       <ContactUs />
-    </Layout>
-    </div>
-  )
+    </main>
+  );
 }
 
-export default HomePage
+export default HomePage;
