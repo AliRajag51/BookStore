@@ -66,7 +66,7 @@ function CourseCard({
             <p className="text-gray-500 text-sm mt-1">by {course.author}</p>
           </div>
           <span className="bg-green-100 text-green-600 text-sm px-3 py-1 rounded-full font-medium">
-            Free
+            {course.price === 0 ? "Free" : `$${course.price}`}
           </span>
         </div>
 
@@ -91,7 +91,9 @@ function CourseCard({
         {/* Price & Button */}
         <div className="mt-6 flex justify-between items-center pt-4 border-t border-gray-100">
           <div>
-            <span className="text-2xl font-bold text-gray-900">$0</span>
+            <span className="text-2xl font-bold text-gray-900">
+              {course.price === 0 ? "Free" : `$${course.price}`}
+            </span>
             <span className="text-gray-400 line-through ml-2">$49.99</span>
           </div>
           <button

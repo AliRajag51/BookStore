@@ -2,7 +2,6 @@ import React from "react";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart.js";
-import bannerImage from "../../assets/banner-image.png";
 
 function CartDrawer() {
   const {
@@ -80,7 +79,7 @@ function CartDrawer() {
                 >
                   <div className="w-20 h-24 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
                     <img
-                      src={bannerImage}
+                      src={item.image}
                       alt={item.title}
                       className="w-full h-full object-cover"
                     />

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import BannerImage from "../../assets/banner-image.png";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "../../components/FreeCourse/SectionHeader.jsx";
 import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
@@ -45,7 +44,7 @@ function FreeCourse() {
               <div key={course.id} id={anchorId}>
                 <CourseCard
                   course={course}
-                  image={BannerImage}
+                  image={course.image}
                   isFavorite={Boolean(favorites[course.id])}
                   onToggleFavorite={() => toggleFavorite(course.id)}
                   onAddToCart={() => addItem(course)}

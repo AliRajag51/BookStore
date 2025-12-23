@@ -9,17 +9,30 @@ function CartProvider({ children }) {
   const openCart = () => setIsOpen(true);
   const closeCart = () => setIsOpen(false);
 
-  const addItem = (product) => {
+  const addItem = (product, options = {}) => {
+    const safeQuantity =
+      Number.isFinite(options.quantity) && options.quantity > 0
+        ? options.quantity
+        : 1;
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + safeQuantity }
+            : item
         );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, { ...product, quantity: safeQuantity }];
     });
-    openCart();
+    if (options.open !== false) {
+      openCart();
+      if (Number.isFinite(options.autoCloseMs) && options.autoCloseMs > 0) {
+        setTimeout(() => {
+          setIsOpen(false);
+        }, options.autoCloseMs);
+      }
+    }
   };
 
   const removeItem = (id) => {

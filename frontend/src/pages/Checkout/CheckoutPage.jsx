@@ -4,7 +4,6 @@ import PaymentOption from "../../components/BuyNowModal/PaymentOption.jsx";
 import SecurityNotice from "../../components/BuyNowModal/SecurityNotice.jsx";
 import GuaranteeBox from "../../components/BuyNowModal/GuaranteeBox.jsx";
 import useCart from "../../hooks/useCart.js";
-import bannerImage from "../../assets/banner-image.png";
 import { isValidEmail } from "../../utils/validation.js";
 
 function CheckoutPage() {
@@ -50,7 +49,7 @@ function CheckoutPage() {
                   >
                     <div className="w-20 h-24 rounded-lg overflow-hidden bg-gray-100">
                       <img
-                        src={bannerImage}
+                        src={item.image}
                         alt={item.title}
                         className="w-full h-full object-cover"
                       />
