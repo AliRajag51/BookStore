@@ -1,6 +1,6 @@
 import React from "react";
 import HeroSection from "./HeroSection.jsx";
-import FreeCourse from "./FreeCourse.jsx";
+import FreeCourse from "./FreeCourse_temp.jsx";
 import ContactUs from "./ContactUs.jsx";
 import AboutUs from "./AboutUs.jsx";
 
