@@ -1,15 +1,32 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Menu, ShoppingCart } from "lucide-react";
+import { Link } from "react-router-dom";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
 import useCart from "../hooks/useCart.js";
+import { books } from "../data/books.js";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const { itemCount, openCart } = useCart();
+  const [query, setQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const results = useMemo(() => {
+    const value = query.trim().toLowerCase();
+    if (!value) {
+      return [];
+    }
+    return books.filter((book) =>
+      [book.title, book.author, book.category]
+        .join(" ")
+        .toLowerCase()
+        .includes(value)
+    );
+  }, [query]);
 
   return (
     <>
@@ -45,12 +62,63 @@ function Navbar() {
               </ul>
             </nav>
 
-            <div className="flex items-center bg-white px-4 py-2 rounded-xl border border-gray-300 shadow-sm min-w-[200px]">
-              <input
-                type="text"
-                placeholder="Search titles, authors, or genres"
-                className="outline-none text-base w-full placeholder-gray-400"
-              />
+            <div className="relative min-w-[220px]">
+              <div className="flex items-center bg-white px-4 py-2 rounded-xl border border-gray-300 shadow-sm">
+                <input
+                  type="text"
+                  placeholder="Search titles, authors, or genres"
+                  className="outline-none text-base w-full placeholder-gray-400"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowResults(true);
+                  }}
+                  onFocus={() => setShowResults(true)}
+                />
+              </div>
+              {showResults && query.trim() && (
+                <div className="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                  {results.length === 0 ? (
+                    <div className="px-4 py-3 text-sm text-gray-600">
+                      No matches. Try another title or author.
+                    </div>
+                  ) : (
+                    <ul className="max-h-72 overflow-y-auto">
+                      {results.slice(0, 6).map((book) => (
+                        <li key={book.id}>
+                          <Link
+                            to={`/books/${book.id}`}
+                            className="block px-4 py-3 hover:bg-gray-50 transition"
+                            onClick={() => {
+                              setShowResults(false);
+                              setQuery("");
+                            }}
+                          >
+                            <p className="text-sm font-semibold text-gray-900">
+                              {book.title}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {book.author} • {book.category}
+                            </p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="px-4 py-2 text-xs text-gray-500 border-t border-gray-100">
+                    <Link
+                      to="/#free-courses"
+                      onClick={() => {
+                        setShowResults(false);
+                        setQuery("");
+                      }}
+                      className="hover:text-pink-600"
+                    >
+                      Browse all books →
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             <button
@@ -105,12 +173,65 @@ function Navbar() {
               </ul>
             </nav>
 
-            <div className="flex items-center bg-white px-4 py-2 border border-gray-300 rounded-xl shadow-sm">
-              <input
-                type="text"
-                placeholder="Search titles, authors, or genres"
-                className="outline-none text-base w-full"
-              />
+            <div className="relative">
+              <div className="flex items-center bg-white px-4 py-2 border border-gray-300 rounded-xl shadow-sm">
+                <input
+                  type="text"
+                  placeholder="Search titles, authors, or genres"
+                  className="outline-none text-base w-full"
+                  value={query}
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                    setShowResults(true);
+                  }}
+                  onFocus={() => setShowResults(true)}
+                />
+              </div>
+              {showResults && query.trim() && (
+                <div className="absolute z-50 mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                  {results.length === 0 ? (
+                    <div className="px-4 py-3 text-sm text-gray-600">
+                      No matches. Try another title or author.
+                    </div>
+                  ) : (
+                    <ul className="max-h-72 overflow-y-auto">
+                      {results.slice(0, 6).map((book) => (
+                        <li key={book.id}>
+                          <Link
+                            to={`/books/${book.id}`}
+                            className="block px-4 py-3 hover:bg-gray-50 transition"
+                            onClick={() => {
+                              setShowResults(false);
+                              setQuery("");
+                              setOpen(false);
+                            }}
+                          >
+                            <p className="text-sm font-semibold text-gray-900">
+                              {book.title}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {book.author} • {book.category}
+                            </p>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  <div className="px-4 py-2 text-xs text-gray-500 border-t border-gray-100">
+                    <Link
+                      to="/#free-courses"
+                      onClick={() => {
+                        setShowResults(false);
+                        setQuery("");
+                        setOpen(false);
+                      }}
+                      className="hover:text-pink-600"
+                    >
+                      Browse all books →
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="flex items-center justify-between gap-3">
