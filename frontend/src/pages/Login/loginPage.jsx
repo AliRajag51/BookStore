@@ -165,7 +165,6 @@ function LoginPage({ onClose, onSwitchToSignup }) {
                 error={errors.password}
                 required
               />
-
               <div className="flex justify-between items-center">
                 <label className="flex items-center gap-2 text-sm">
                   <input

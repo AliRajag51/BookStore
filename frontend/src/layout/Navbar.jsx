@@ -68,7 +68,7 @@ function Navbar() {
               <ul className="flex gap-8 font-medium text-gray-700">
                 {[
                   { label: "Home", href: "/#home" },
-                  { label: "Books", href: "/#free-courses" },
+                  { label: "Books", href: "/books" },
                   { label: "Contact", href: "/#contact" },
                   { label: "About", href: "/#about" },
                 ].map((item) => (
@@ -127,7 +127,7 @@ function Navbar() {
                   )}
                   <div className="px-4 py-2 text-xs text-gray-500 border-t border-gray-100">
                     <Link
-                      to="/#free-courses"
+                      to="/books"
                       onClick={() => {
                         setShowResults(false);
                         setQuery("");
@@ -182,7 +182,7 @@ function Navbar() {
               <ul className="flex flex-col gap-4 text-lg text-gray-700">
                 {[
                   { label: "Home", href: "/#home" },
-                  { label: "Books", href: "/#free-courses" },
+                  { label: "Books", href: "/books" },
                   { label: "Contact", href: "/#contact" },
                   { label: "About", href: "/#about" },
                 ].map((item) => (
@@ -239,7 +239,7 @@ function Navbar() {
                   )}
                   <div className="px-4 py-2 text-xs text-gray-500 border-t border-gray-100">
                     <Link
-                      to="/#free-courses"
+                      to="/books"
                       onClick={() => {
                         setShowResults(false);
                         setQuery("");
@@ -320,7 +320,6 @@ function Navbar() {
 }
 
 export default Navbar;
-
 
 
 
