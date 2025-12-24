@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart.js";
 import { books } from "../../data/books.js";
 
@@ -30,6 +30,11 @@ function CartDrawer() {
     closeCart();
     navigate("/checkout");
   };
+
+  const cartTotal = items.reduce(
+    (sum, item) => sum + (Number(item.price) || 0) * item.quantity,
+    0
+  );
 
   return (
     <div className="fixed inset-0 z-50">
@@ -80,65 +85,73 @@ function CartDrawer() {
             </div>
           ) : (
             <div className="space-y-4">
-              {items.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 rounded-xl border border-gray-100 p-4 hover:shadow-sm transition"
-                >
-                  <div className="w-20 h-24 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs text-gray-500">by {item.author}</p>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="p-1 text-gray-400 hover:text-red-500"
-                        aria-label="Remove item"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
+              {items.map((item) => {
+                const itemPrice = Number(item.price) || 0;
+                const itemSubtotal = itemPrice * item.quantity;
 
-                    <div className="mt-3 flex items-center justify-between">
-                      <span className="text-sm font-medium text-pink-600">
-                        Free
-                      </span>
-                      <div className="flex items-center gap-2">
+                return (
+                  <div
+                    key={item.id}
+                    className="flex gap-4 rounded-xl border border-gray-100 p-4 hover:shadow-sm transition"
+                  >
+                    <div className="w-20 h-24 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between">
+                        <div>
+                          <h3 className="font-semibold text-gray-900">
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-gray-500">by {item.author}</p>
+                        </div>
                         <button
                           type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-1 rounded-full border border-gray-200 hover:bg-gray-50"
-                          aria-label="Decrease quantity"
+                          onClick={() => removeItem(item.id)}
+                          className="p-1 text-gray-400 hover:text-red-500"
+                          aria-label="Remove item"
                         >
-                          <Minus className="w-4 h-4" />
+                          <Trash2 className="w-4 h-4" />
                         </button>
-                        <span className="w-6 text-center text-sm">
-                          {item.quantity}
+                      </div>
+
+                      <div className="mt-3 flex items-center justify-between">
+                        <span className="text-sm font-medium text-pink-600">
+                          {itemPrice === 0 ? "Free" : `$${itemPrice.toFixed(2)}`}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-1 rounded-full border border-gray-200 hover:bg-gray-50"
-                          aria-label="Increase quantity"
-                        >
-                          <Plus className="w-4 h-4" />
-                        </button>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            className="p-1 rounded-full border border-gray-200 hover:bg-gray-50"
+                            aria-label="Decrease quantity"
+                          >
+                            <Minus className="w-4 h-4" />
+                          </button>
+                          <span className="w-6 text-center text-sm">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            className="p-1 rounded-full border border-gray-200 hover:bg-gray-50"
+                            aria-label="Increase quantity"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                      <div className="mt-2 text-sm text-gray-500">
+                        Subtotal: ${itemSubtotal.toFixed(2)}
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>
@@ -184,7 +197,7 @@ function CartDrawer() {
               onClick={handleCheckout}
               className="w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:from-pink-600 hover:to-purple-700 transition"
             >
-              Proceed to Checkout
+              Proceed to Checkout • ${cartTotal.toFixed(2)}
             </button>
             <button
               type="button"

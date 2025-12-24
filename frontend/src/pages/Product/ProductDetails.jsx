@@ -86,6 +86,23 @@ function ProductDetailsPage() {
     }
   };
 
+  const handleShare = () => {
+    if (!product) return;
+    const url = `${window.location.origin}/books/${product.id}`;
+    if (navigator.share) {
+      navigator.share({
+        title: product.title,
+        text: `Check out ${product.title}`,
+        url,
+      });
+      return;
+    }
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url);
+    }
+    window.alert("Link copied to clipboard.");
+  };
+
   const scrollToRelevant = () => {
     const section = document.getElementById("relevant-books");
     if (section) {
@@ -114,7 +131,7 @@ function ProductDetailsPage() {
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <a
               href="/"
@@ -133,11 +150,12 @@ function ProductDetailsPage() {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
+        {/* <div className="margin mt-10"></div> */}
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-12">
         {/* Product Section */}
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Product Images */}
@@ -207,7 +225,11 @@ function ProductDetailsPage() {
                   {isWishlisted ? "Wishlisted" : "Add to Wishlist"}
                 </span>
               </button>
-              <button className="flex-1 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="flex-1 py-3 rounded-xl bg-white border border-gray-200 text-gray-700 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-600 hover:shadow-md transition-all duration-300 flex items-center justify-center gap-2"
+              >
                 <Share2 className="w-5 h-5" />
                 <span className="font-medium">Share</span>
               </button>
