@@ -25,6 +25,22 @@ function FreeCourse() {
     setActivePage((prev) => (prev - 1 + pages.length) % pages.length);
   };
 
+  const handleShare = (course) => {
+    const url = `${window.location.origin}/books/${course.id}`;
+    if (navigator.share) {
+      navigator.share({
+        title: course.title,
+        text: `Check out ${course.title}`,
+        url,
+      });
+      return;
+    }
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(url);
+    }
+    window.alert("Link copied to clipboard.");
+  };
+
   // The hover effect is called: "Image Zoom/Scale on Hover"
   return (
     <section id="free-courses" className="font-poppins bg-gradient-to-b from-white to-gray-50 ">
@@ -49,6 +65,7 @@ function FreeCourse() {
                   onToggleFavorite={() => toggleFavorite(course.id)}
                   onAddToCart={() => addItem(course)}
                   detailsHref={`/books/${course.id}`}
+                  onShare={() => handleShare(course)}
                 />
               </div>
             );
