@@ -89,14 +89,27 @@ function Footer() {
                     Ali Haider
                   </h2>
                   <p className="text-sm text-gray-500">
-                    Software Engineer | MERN Stack Solutions
+                    <b>Software Engineer | Full Stack Solutions</b>
                   </p>
                 </div>
               </div>
               <p className="mt-2 text-gray-600 leading-relaxed max-w-lg">
-                I build modern, scalable MERN applications for startups and
-                product teams. Let&apos;s craft fast, clean, and reliable
-                experiences together.
+                Engineering{" "}
+                <span className="relative inline-block group">
+                  <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-purple-600">
+                    FULL STACK
+                  </span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-pink-400 rounded-full group-hover:w-full transition-all duration-700"></span>
+                  <span className="absolute -inset-1 bg-gradient-to-r from-pink-400/10 to-purple-400/10 rounded-lg -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                </span>{" "}
+                solutions that power startups and elevate products. Let's
+                collaborate to build applications that aren't just
+                functional—they're{" "}
+                <span className="font-semibold text-gray-800 relative">
+                  extraordinary
+                  <span className="absolute -bottom-0.5 left-0 w-full h-1 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-full opacity-50"></span>
+                </span>
+                .
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <a
