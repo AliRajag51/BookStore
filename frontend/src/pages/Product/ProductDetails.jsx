@@ -73,7 +73,7 @@ function ProductDetailsPage() {
   };
 
   const handleBuyNow = () => {
-    addToCart(quantity, 2000);
+    addToCart(quantity, 1000);
     navigate("/checkout");
   };
 

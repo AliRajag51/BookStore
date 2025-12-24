@@ -9,6 +9,7 @@ function CourseCard({
   onToggleFavorite,
   onAddToCart,
   detailsHref,
+  onShare,
 }) {
   return (
     <div className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:-translate-y-2">
@@ -51,7 +52,11 @@ function CourseCard({
         </div>
 
         {/* Share Button */}
-        <button className="absolute bottom-6 right-6 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg">
+        <button
+          type="button"
+          onClick={onShare}
+          className="absolute bottom-6 right-6 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-all duration-200 shadow-lg"
+        >
           <Share2 className="w-5 h-5 text-gray-600" />
         </button>
       </div>

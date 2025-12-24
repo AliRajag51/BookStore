@@ -14,6 +14,9 @@ function CartProvider({ children }) {
       Number.isFinite(options.quantity) && options.quantity > 0
         ? options.quantity
         : 1;
+    const autoCloseMs = Number.isFinite(options.autoCloseMs)
+      ? options.autoCloseMs
+      : 1000;
     setItems((prev) => {
       const existing = prev.find((item) => item.id === product.id);
       if (existing) {
@@ -27,10 +30,10 @@ function CartProvider({ children }) {
     });
     if (options.open !== false) {
       openCart();
-      if (Number.isFinite(options.autoCloseMs) && options.autoCloseMs > 0) {
+      if (autoCloseMs > 0) {
         setTimeout(() => {
           setIsOpen(false);
-        }, options.autoCloseMs);
+        }, autoCloseMs);
       }
     }
   };

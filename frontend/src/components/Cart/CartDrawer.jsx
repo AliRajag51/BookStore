@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart.js";
+import { books } from "../../data/books.js";
 
 function CartDrawer() {
   const {
     items,
     isOpen,
     closeCart,
+    addItem,
     updateQuantity,
     removeItem,
     clearCart,
   } = useCart();
   const navigate = useNavigate();
+
+  const recommendations = useMemo(() => {
+    if (items.length === 0) return [];
+    const cartIds = new Set(items.map((item) => item.id));
+    return books.filter((book) => !cartIds.has(book.id)).slice(0, 3);
+  }, [items]);
 
   if (!isOpen) {
     return null;
@@ -137,6 +145,40 @@ function CartDrawer() {
 
         {items.length > 0 && (
           <div className="border-t p-5 space-y-3">
+            {recommendations.length > 0 && (
+              <div className="rounded-xl border border-gray-100 p-4 bg-gray-50">
+                <p className="text-sm font-semibold text-gray-900">
+                  You may also like
+                </p>
+                <div className="mt-4 space-y-3">
+                  {recommendations.map((book) => (
+                    <div
+                      key={book.id}
+                      className="flex items-center gap-3 rounded-lg bg-white p-3 border border-gray-100"
+                    >
+                      <img
+                        src={book.image}
+                        alt={book.title}
+                        className="w-12 h-16 rounded-md object-cover"
+                      />
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-gray-900">
+                          {book.title}
+                        </p>
+                        <p className="text-xs text-gray-500">{book.author}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => addItem(book, { open: false })}
+                        className="px-3 py-1.5 text-xs rounded-full bg-pink-600 text-white hover:bg-pink-700 transition"
+                      >
+                        Add
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
             <button
               type="button"
               onClick={handleCheckout}
