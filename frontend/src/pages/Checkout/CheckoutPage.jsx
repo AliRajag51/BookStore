@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import PaymentOption from "../../components/BuyNowModal/PaymentOption.jsx";
 import SecurityNotice from "../../components/BuyNowModal/SecurityNotice.jsx";
 import GuaranteeBox from "../../components/BuyNowModal/GuaranteeBox.jsx";
@@ -8,6 +8,7 @@ import { isValidEmail } from "../../utils/validation.js";
 
 function CheckoutPage() {
   const { items, updateQuantity, removeItem, clearCart } = useCart();
+  const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -16,6 +17,16 @@ function CheckoutPage() {
     address: "",
   });
   const [errors, setErrors] = useState({});
+  const orderTotal = items.reduce(
+    (sum, item) => sum + (Number(item.price) || 0) * item.quantity,
+    0
+  );
+
+  useEffect(() => {
+    if (items.length === 0 && !isSubmitted) {
+      navigate("/#free-courses");
+    }
+  }, [items.length, isSubmitted, navigate]);
 
   return (
     <section className="font-poppins py-16 bg-gradient-to-b from-white to-gray-50">
@@ -69,7 +80,11 @@ function CheckoutPage() {
                         </button>
                       </div>
                       <div className="mt-3 flex items-center justify-between">
-                        <span className="text-sm text-pink-600 font-medium">Free</span>
+                        <span className="text-sm text-pink-600 font-medium">
+                          {(Number(item.price) || 0) === 0
+                            ? "Free"
+                            : `$${(Number(item.price) || 0).toFixed(2)}`}
+                        </span>
                         <div className="flex items-center gap-2">
                           <button
                             type="button"
@@ -88,6 +103,10 @@ function CheckoutPage() {
                           </button>
                         </div>
                       </div>
+                      <div className="mt-2 text-sm text-gray-500">
+                        Subtotal: $
+                        {((Number(item.price) || 0) * item.quantity).toFixed(2)}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -95,13 +114,21 @@ function CheckoutPage() {
             )}
 
             {items.length > 0 && (
-              <button
-                type="button"
-                onClick={clearCart}
-                className="mt-4 text-sm text-gray-500 hover:text-gray-700"
-              >
-                Clear cart
-              </button>
+              <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
+                <button
+                  type="button"
+                  onClick={() => {
+                    clearCart();
+                    navigate("/#free-courses");
+                  }}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  Clear cart
+                </button>
+                <span className="font-semibold text-gray-900">
+                  Total: ${orderTotal.toFixed(2)}
+                </span>
+              </div>
             )}
           </div>
 
