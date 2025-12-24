@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Menu, ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
@@ -14,6 +14,8 @@ function Navbar() {
   const { itemCount, openCart } = useCart();
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const lastScrollY = useRef(0);
 
   const results = useMemo(() => {
     const value = query.trim().toLowerCase();
@@ -28,10 +30,28 @@ function Navbar() {
     );
   }, [query]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      const scrollingUp = currentScroll < lastScrollY.current;
+      const nearTop = currentScroll < 80;
+
+      setIsVisible(scrollingUp || nearTop || open);
+      lastScrollY.current = currentScroll;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [open]);
+
   return (
     <>
       {/* ================= NAVBAR ================= */}
-      <header className="px-6 py-4 mt-4 bg-white rounded-xl mx-4 shadow-sm">
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 px-6 py-4 mt-4 bg-white rounded-xl mx-4 shadow-sm transition-transform duration-300 ${
+          isVisible ? "translate-y-0" : "-translate-y-full"
+        }`}
+      >
         <div className="flex items-center justify-between font-poppins max-w-7xl mx-auto">
 
           {/* Logo */}
@@ -66,7 +86,7 @@ function Navbar() {
               <div className="flex items-center bg-white px-4 py-2 rounded-xl border border-gray-300 shadow-sm">
                 <input
                   type="text"
-                  placeholder="Search titles, authors, or genres"
+                  placeholder="Search any books"
                   className="outline-none text-base w-full placeholder-gray-400"
                   value={query}
                   onChange={(e) => {
@@ -177,7 +197,7 @@ function Navbar() {
               <div className="flex items-center bg-white px-4 py-2 border border-gray-300 rounded-xl shadow-sm">
                 <input
                   type="text"
-                  placeholder="Search titles, authors, or genres"
+                  placeholder="Search any books"
                   className="outline-none text-base w-full"
                   value={query}
                   onChange={(e) => {
@@ -264,6 +284,7 @@ function Navbar() {
           </div>
         )}
       </header>
+      <div className="h-24" aria-hidden="true" />
 
       {/* ================= LOGIN MODAL ================= */}
       {showLogin && (
