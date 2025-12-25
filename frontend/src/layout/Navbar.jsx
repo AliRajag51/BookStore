@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { LogOut, Menu, ShoppingCart, UserCircle } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
@@ -9,6 +9,7 @@ import useCart from "../hooks/useCart.js";
 function Navbar() {
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const navigate = useNavigate();
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -108,6 +109,13 @@ function Navbar() {
 
     checkAuth();
   }, [API_URL]);
+
+  useEffect(() => {
+    if (location.hash === "#login") {
+      setShowLogin(true);
+      setShowSignup(false);
+    }
+  }, [location.hash]);
 
   const handleLoginSuccess = (user) => {
     setCurrentUser(user);
