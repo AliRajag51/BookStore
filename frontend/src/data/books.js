@@ -6,14 +6,53 @@ export const books = [
     description:
       "A practical guide to building good habits and breaking bad ones with small, consistent changes.",
     price: 29.99,
+    oldPrice: 34.99,
+    discountPercent: 14,
     rating: 4.8,
     reviews: 1243,
     pages: 320,
     published: "2018",
     language: "English",
+    format: "Hardcover",
     isbn: "978-0735211292",
     category: "Self-Help",
     tags: ["Productivity", "Psychology", "Personal Development"],
+    keyTakeaways: [
+      "Build better habits in 4 simple steps",
+      "Overcome lack of motivation and willpower",
+      "Design your environment for success",
+      "Make time for new habits",
+    ],
+    whyRead: [
+      "Practical framework for habit formation",
+      "Backed by scientific research",
+      "Real-life examples and case studies",
+      "Actionable advice you can implement today",
+    ],
+    details: [
+      "Publisher: Avery",
+      "ISBN: 978-0735211292",
+      "Category: Self-Help",
+      "Format: Hardcover",
+    ],
+    reviewsList: [
+      {
+        name: "Ayesha K.",
+        rating: 5,
+        text: "Practical and motivating. Easy to apply and stick with.",
+      },
+      {
+        name: "Bilal M.",
+        rating: 4,
+        text: "Great insights and simple framework for daily habits.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-3 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800",
     images: [
@@ -34,14 +73,53 @@ export const books = [
     description:
       "Discover the science of habits and how to reshape routines for lasting change.",
     price: 27.99,
+    oldPrice: 32.99,
+    discountPercent: 15,
     rating: 4.6,
     reviews: 980,
     pages: 371,
     published: "2012",
     language: "English",
+    format: "Paperback",
     isbn: "978-0812981605",
     category: "Psychology",
     tags: ["Habits", "Behavior", "Motivation"],
+    keyTakeaways: [
+      "Understand the habit loop",
+      "Change routines with small cues",
+      "Build lasting behavioral change",
+      "Use science-backed methods",
+    ],
+    whyRead: [
+      "Clear explanations of habit science",
+      "Actionable frameworks",
+      "Real-world case studies",
+      "Easy to apply daily",
+    ],
+    details: [
+      "Publisher: Random House",
+      "ISBN: 978-0812981605",
+      "Category: Psychology",
+      "Format: Paperback",
+    ],
+    reviewsList: [
+      {
+        name: "Sara T.",
+        rating: 5,
+        text: "Engaging and insightful. A must-read for behavior change.",
+      },
+      {
+        name: "Omar H.",
+        rating: 4,
+        text: "Well written with practical ideas to try immediately.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-4 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=400",
     images: [
@@ -61,14 +139,53 @@ export const books = [
     description:
       "Learn how to focus deeply, produce better work, and thrive in a distracted world.",
     price: 26.99,
+    oldPrice: 30.99,
+    discountPercent: 13,
     rating: 4.7,
     reviews: 1120,
     pages: 304,
     published: "2016",
     language: "English",
+    format: "Hardcover",
     isbn: "978-1455586691",
     category: "Productivity",
     tags: ["Focus", "Work", "Performance"],
+    keyTakeaways: [
+      "Build deep work habits",
+      "Reduce distractions",
+      "Create a focused schedule",
+      "Improve output quality",
+    ],
+    whyRead: [
+      "Actionable productivity advice",
+      "Strong research backing",
+      "Clear steps to focus",
+      "Highly readable format",
+    ],
+    details: [
+      "Publisher: Grand Central",
+      "ISBN: 978-1455586691",
+      "Category: Productivity",
+      "Format: Hardcover",
+    ],
+    reviewsList: [
+      {
+        name: "Imran S.",
+        rating: 5,
+        text: "Helped me focus better at work. Highly recommended.",
+      },
+      {
+        name: "Noor A.",
+        rating: 4,
+        text: "Great ideas for managing distractions and deep focus.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-3 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=400",
     images: [
@@ -87,14 +204,53 @@ export const books = [
     description:
       "A deep dive into how we think, decide, and form judgments in daily life.",
     price: 32.99,
+    oldPrice: 36.99,
+    discountPercent: 11,
     rating: 4.5,
     reviews: 860,
     pages: 499,
     published: "2011",
     language: "English",
+    format: "Hardcover",
     isbn: "978-0374533557",
     category: "Psychology",
     tags: ["Decision Making", "Cognition", "Behavior"],
+    keyTakeaways: [
+      "Understand fast vs. slow thinking",
+      "Recognize cognitive biases",
+      "Improve decision-making",
+      "Apply insights to daily life",
+    ],
+    whyRead: [
+      "Groundbreaking research",
+      "Clear explanations",
+      "Practical insights",
+      "Engaging examples",
+    ],
+    details: [
+      "Publisher: Farrar, Straus and Giroux",
+      "ISBN: 978-0374533557",
+      "Category: Psychology",
+      "Format: Hardcover",
+    ],
+    reviewsList: [
+      {
+        name: "Hira N.",
+        rating: 5,
+        text: "Dense but incredibly valuable. Learned a lot.",
+      },
+      {
+        name: "Zain K.",
+        rating: 4,
+        text: "Insightful and worth the time.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-4 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400",
     images: [
@@ -112,14 +268,53 @@ export const books = [
     description:
       "Timeless principles for personal effectiveness and leadership at any level.",
     price: 24.99,
+    oldPrice: 29.99,
+    discountPercent: 17,
     rating: 4.4,
     reviews: 920,
     pages: 432,
     published: "1989",
     language: "English",
+    format: "Paperback",
     isbn: "978-1982137274",
     category: "Self-Help",
     tags: ["Leadership", "Goals", "Growth"],
+    keyTakeaways: [
+      "Principle-centered living",
+      "Prioritize important tasks",
+      "Build strong relationships",
+      "Lead with integrity",
+    ],
+    whyRead: [
+      "Timeless leadership lessons",
+      "Practical frameworks",
+      "Real-world applications",
+      "Highly regarded classic",
+    ],
+    details: [
+      "Publisher: Simon & Schuster",
+      "ISBN: 978-1982137274",
+      "Category: Self-Help",
+      "Format: Paperback",
+    ],
+    reviewsList: [
+      {
+        name: "Muneeb R.",
+        rating: 5,
+        text: "A classic that still feels relevant today.",
+      },
+      {
+        name: "Areeba J.",
+        rating: 4,
+        text: "Great principles and easy to follow.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-3 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=400",
     images: [
@@ -138,14 +333,53 @@ export const books = [
     description:
       "Understand growth mindset and how it shapes learning, success, and resilience.",
     price: 22.99,
+    oldPrice: 26.99,
+    discountPercent: 15,
     rating: 4.3,
     reviews: 740,
     pages: 320,
     published: "2006",
     language: "English",
+    format: "Paperback",
     isbn: "978-0345472328",
     category: "Psychology",
     tags: ["Mindset", "Learning", "Motivation"],
+    keyTakeaways: [
+      "Embrace a growth mindset",
+      "Improve learning outcomes",
+      "Build resilience",
+      "Reframe challenges",
+    ],
+    whyRead: [
+      "Research-based insights",
+      "Practical guidance",
+      "Real-life examples",
+      "Inspiring and clear",
+    ],
+    details: [
+      "Publisher: Ballantine Books",
+      "ISBN: 978-0345472328",
+      "Category: Psychology",
+      "Format: Paperback",
+    ],
+    reviewsList: [
+      {
+        name: "Farah L.",
+        rating: 5,
+        text: "Changed how I think about learning and success.",
+      },
+      {
+        name: "Usman P.",
+        rating: 4,
+        text: "Useful and easy to apply.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-4 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=400",
     images: [
@@ -163,14 +397,53 @@ export const books = [
     description:
       "A counterintuitive approach to living a good life with honesty and clarity.",
     price: 25.99,
+    oldPrice: 30.99,
+    discountPercent: 16,
     rating: 4.2,
     reviews: 680,
     pages: 224,
     published: "2016",
     language: "English",
+    format: "Paperback",
     isbn: "978-0062457714",
     category: "Self-Help",
     tags: ["Mindset", "Life", "Personal Growth"],
+    keyTakeaways: [
+      "Focus on what matters",
+      "Accept limitations honestly",
+      "Build resilience",
+      "Set better priorities",
+    ],
+    whyRead: [
+      "Straightforward and refreshing",
+      "Practical life lessons",
+      "Easy to read",
+      "Relatable examples",
+    ],
+    details: [
+      "Publisher: HarperOne",
+      "ISBN: 978-0062457714",
+      "Category: Self-Help",
+      "Format: Paperback",
+    ],
+    reviewsList: [
+      {
+        name: "Hassan Q.",
+        rating: 4,
+        text: "Funny, direct, and surprisingly helpful.",
+      },
+      {
+        name: "Iqra S.",
+        rating: 5,
+        text: "Loved the writing style and practical insights.",
+      },
+    ],
+    shippingInfo: [
+      "Ships in 2-3 business days",
+      "Free standard shipping on orders over $25",
+      "30-day return policy",
+    ],
+    shippingNote: "Free shipping available",
     image:
       "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?auto=format&fit=crop&w=400",
     images: [

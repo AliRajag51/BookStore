@@ -13,7 +13,9 @@ import {
 import InputField from "../../components/Auth/InputField.jsx";
 import { isValidEmail } from "../../utils/validation.js";
 
-function LoginPage({ onClose, onSwitchToSignup }) {
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
+function LoginPage({ onClose, onSwitchToSignup, onLoginSuccess }) {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,6 +23,9 @@ function LoginPage({ onClose, onSwitchToSignup }) {
     password: "",
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [serverMessage, setServerMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -30,7 +35,7 @@ function LoginPage({ onClose, onSwitchToSignup }) {
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nextErrors = {};
     const emailValue = formData.email.trim();
@@ -44,8 +49,8 @@ function LoginPage({ onClose, onSwitchToSignup }) {
 
     if (!passwordValue) {
       nextErrors.password = "Password is required.";
-    } else if (passwordValue.length < 6) {
-      nextErrors.password = "Password must be at least 6 characters.";
+    } else if (passwordValue.length < 8) {
+      nextErrors.password = "Password must be at least 8 characters.";
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -53,7 +58,69 @@ function LoginPage({ onClose, onSwitchToSignup }) {
       return;
     }
 
-    // Submit login here
+    setIsSubmitting(true);
+    setServerError("");
+    setServerMessage("");
+
+    try {
+      const response = await fetch(`${API_URL}/api/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email: emailValue, password: passwordValue }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setServerError(data.message || "Login failed");
+        return;
+      }
+
+      if (onLoginSuccess && data?.user) {
+        onLoginSuccess(data.user);
+      }
+
+      setServerMessage("Login successful.");
+    } catch (err) {
+      setServerError("Login failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    const emailValue = formData.email.trim();
+    if (!emailValue) {
+      setErrors((prev) => ({ ...prev, email: "Enter your email to reset password." }));
+      return;
+    }
+    if (!isValidEmail(emailValue)) {
+      setErrors((prev) => ({ ...prev, email: "Enter a valid email address." }));
+      return;
+    }
+
+    setServerError("");
+    setServerMessage("");
+
+    try {
+      const response = await fetch(`${API_URL}/api/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email: emailValue }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setServerError(data.message || "Request failed");
+        return;
+      }
+
+      setServerMessage(data.message || "Reset link sent. Please check your email.");
+    } catch (err) {
+      setServerError("Request failed. Please try again.");
+    }
   };
 
   const handleClose = () => {
@@ -126,6 +193,16 @@ function LoginPage({ onClose, onSwitchToSignup }) {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {serverError && (
+                <p className="text-sm text-red-600" role="alert">
+                  {serverError}
+                </p>
+              )}
+              {serverMessage && (
+                <p className="text-sm text-green-700" role="status">
+                  {serverMessage}
+                </p>
+              )}
               {/* Email */}
               <InputField
                 label="Email"
@@ -177,6 +254,7 @@ function LoginPage({ onClose, onSwitchToSignup }) {
                 <button
                   type="button"
                   className="text-sm text-gray-600 hover:underline"
+                  onClick={handleForgotPassword}
                 >
                   Forgot password?
                 </button>
@@ -184,9 +262,10 @@ function LoginPage({ onClose, onSwitchToSignup }) {
 
               <button
                 type="submit"
-                className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition"
+                disabled={isSubmitting}
+                className="w-full bg-black text-white py-3 rounded-xl hover:bg-gray-800 transition disabled:opacity-60"
               >
-                Sign In
+                {isSubmitting ? "Signing in..." : "Sign In"}
               </button>
 
               <div className="text-center mt-6 text-sm text-gray-600">

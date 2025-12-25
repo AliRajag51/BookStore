@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Menu, ShoppingCart } from "lucide-react";
-import { Link } from "react-router-dom";
+import { LogOut, Menu, ShoppingCart, UserCircle } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
@@ -8,9 +8,14 @@ import useCart from "../hooks/useCart.js";
 import { books } from "../data/books.js";
 
 function Navbar() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
   const { itemCount, openCart } = useCart();
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
@@ -43,6 +48,76 @@ function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [open]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/check-auth`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          setCurrentUser(null);
+          return;
+        }
+        const data = await response.json();
+        if (data?.user) {
+          setCurrentUser(data.user);
+        } else {
+          setCurrentUser(null);
+        }
+      } catch {
+        setCurrentUser(null);
+      }
+    };
+
+    checkAuth();
+  }, [API_URL]);
+
+  const handleLoginSuccess = (user) => {
+    setCurrentUser(user);
+    setShowLogin(false);
+    setShowSignup(false);
+    setShowUserMenu(false);
+    navigate("/");
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch(`${API_URL}/api/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      // Ignore network errors and still clear UI state
+    } finally {
+      setCurrentUser(null);
+      setShowUserMenu(false);
+    }
+  };
+
+  const getDisplayName = (user) => {
+    if (!user) return "User";
+    const rawName =
+      user.firstName ||
+      user.name ||
+      [user.firstName, user.lastName].filter(Boolean).join(" ") ||
+      "User";
+    const trimmed = rawName.toString().trim();
+    if (!trimmed) return "User";
+    return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+  };
 
   return (
     <>
@@ -157,12 +232,39 @@ function Navbar() {
           </div>
 
           {/* LOGIN BUTTON (DESKTOP) */}
-          <Button1
-            onClick={() => setShowLogin(true)}
-            className="hidden md:block"
-          >
-            Login
-          </Button1>
+          {currentUser ? (
+            <div className="hidden md:flex items-center relative" ref={userMenuRef}>
+              <button
+                type="button"
+                onClick={() => setShowUserMenu((prev) => !prev)}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black text-white shadow-md hover:bg-gray-800 transition"
+              >
+                <UserCircle className="w-5 h-5" />
+                <span className="text-sm font-medium">
+                  {getDisplayName(currentUser)}
+                </span>
+              </button>
+              {showUserMenu && (
+                <div className="absolute right-0 top-full mt-2 w-44 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Button1
+              onClick={() => setShowLogin(true)}
+              className="hidden md:block"
+            >
+              Login
+            </Button1>
+          )}
 
           {/* Hamburger */}
           <button
@@ -271,15 +373,45 @@ function Navbar() {
                   </span>
                 )}
               </button>
-              <Button1
-                onClick={() => {
-                  setShowLogin(true);
-                  setOpen(false);
-                }}
-                className="px-5 w-full"
-              >
-                Login
-              </Button1>
+              {currentUser ? (
+                <div className="relative w-full" ref={userMenuRef}>
+                  <button
+                    type="button"
+                    onClick={() => setShowUserMenu((prev) => !prev)}
+                    className="flex items-center justify-center gap-2 w-full px-5 py-3 rounded-xl bg-black text-white"
+                  >
+                    <UserCircle className="w-5 h-5" />
+                    <span className="text-sm font-medium">
+                      {getDisplayName(currentUser)}
+                    </span>
+                  </button>
+                  {showUserMenu && (
+                    <div className="mt-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleLogout();
+                          setOpen(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-3 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Button1
+                  onClick={() => {
+                    setShowLogin(true);
+                    setOpen(false);
+                  }}
+                  className="px-5 w-full"
+                >
+                  Login
+                </Button1>
+              )}
             </div>
           </div>
         )}
@@ -296,6 +428,7 @@ function Navbar() {
                 setShowLogin(false);
                 setShowSignup(true);
               }}
+              onLoginSuccess={handleLoginSuccess}
             />
           </div>
         </div>
@@ -320,7 +453,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
-
-
-

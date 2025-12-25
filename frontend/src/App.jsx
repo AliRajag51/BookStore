@@ -5,6 +5,7 @@ import HomePage from "./pages/Home/HomePage.jsx";
 import ProductDetails from "./pages/Product/ProductDetails.jsx";
 import CheckoutPage from "./pages/Checkout/CheckoutPage.jsx";
 import BooksPage from "./pages/Books/BooksPage.jsx";
+import ResetPasswordPage from "./pages/Login/resetPassword.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/books" element={<BooksPage />} />
           <Route path="/books/:id" element={<ProductDetails />} />
           <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>

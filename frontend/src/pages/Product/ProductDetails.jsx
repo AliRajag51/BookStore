@@ -57,6 +57,13 @@ function ProductDetailsPage() {
   }, [product]);
 
   const priceValue = Number.isFinite(product?.price) ? product.price : 0;
+  const oldPriceValue = Number.isFinite(product?.oldPrice) ? product.oldPrice : null;
+  const discountPercent =
+    Number.isFinite(product?.discountPercent)
+      ? product.discountPercent
+      : Number.isFinite(product?.discount)
+        ? product.discount
+        : null;
   const totalSlides = Math.max(1, Math.ceil(relevantBooks.length / 3));
 
   const incrementQuantity = () => setQuantity((prev) => prev + 1);
@@ -295,15 +302,23 @@ function ProductDetailsPage() {
                 <span className="text-4xl font-bold text-gray-900">
                   ${priceValue.toFixed(2)}
                 </span>
-                <span className="text-lg text-gray-500 line-through">$34.99</span>
-                <span className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-sm font-semibold rounded-full">
-                  Save 14%
-                </span>
+                {oldPriceValue && (
+                  <span className="text-lg text-gray-500 line-through">
+                    ${oldPriceValue.toFixed(2)}
+                  </span>
+                )}
+                {discountPercent !== null && (
+                  <span className="px-3 py-1 bg-gradient-to-r from-pink-500 to-purple-500 text-white text-sm font-semibold rounded-full">
+                    Save {discountPercent}%
+                  </span>
+                )}
               </div>
-              <p className="text-green-600 font-medium flex items-center gap-2">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                Free shipping available
-              </p>
+              {product.shippingNote && (
+                <p className="text-green-600 font-medium flex items-center gap-2">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                  {product.shippingNote}
+                </p>
+              )}
             </div>
 
             {/* Quick Info */}
@@ -326,7 +341,7 @@ function ProductDetailsPage() {
               <div className="p-4 bg-white border border-gray-100 rounded-xl hover:border-green-200 hover:shadow-md transition-all duration-300 group">
                 <Eye className="w-6 h-6 text-green-500 mb-2 group-hover:scale-110 transition-transform" />
                 <div className="text-sm text-gray-600">Format</div>
-                <div className="font-semibold text-gray-900">Hardcover</div>
+                <div className="font-semibold text-gray-900">{product.format}</div>
               </div>
             </div>
 
@@ -422,12 +437,7 @@ function ProductDetailsPage() {
                       Key Takeaways
                     </h4>
                     <ul className="space-y-2">
-                      {[
-                        "Build better habits in 4 simple steps",
-                        "Overcome lack of motivation and willpower",
-                        "Design your environment for success",
-                        "Make time for new habits",
-                      ].map((item) => (
+                      {(product.keyTakeaways || []).map((item) => (
                         <li key={item} className="flex items-center gap-3 text-gray-600">
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                           {item}
@@ -440,12 +450,7 @@ function ProductDetailsPage() {
                       Why Read This Book
                     </h4>
                     <ul className="space-y-2">
-                      {[
-                        "Practical framework for habit formation",
-                        "Backed by scientific research",
-                        "Real-life examples and case studies",
-                        "Actionable advice you can implement today",
-                      ].map((item) => (
+                      {(product.whyRead || []).map((item) => (
                         <li key={item} className="flex items-center gap-3 text-gray-600">
                           <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
                           {item}
@@ -454,6 +459,57 @@ function ProductDetailsPage() {
                     </ul>
                   </div>
                 </div>
+              </div>
+            )}
+            {activeTab === "details" && (
+              <div className="space-y-4 animate-fade-in">
+                <ul className="space-y-2">
+                  {(product.details || []).map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-gray-600">
+                      <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {activeTab === "reviews" && (
+              <div className="space-y-4 animate-fade-in">
+                {(product.reviewsList || []).map((review, index) => (
+                  <div
+                    key={`${review.name}-${index}`}
+                    className="p-4 bg-white border border-gray-100 rounded-xl"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="font-semibold text-gray-900">{review.name}</div>
+                      <div className="flex items-center gap-1 text-sm text-gray-500">
+                        {[...Array(5)].map((_, i) => (
+                          <Star
+                            key={i}
+                            className={`w-4 h-4 ${
+                              i < Math.floor(review.rating || 0)
+                                ? "text-yellow-400 fill-current"
+                                : "text-gray-300"
+                            }`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="text-gray-600 text-sm mt-2">{review.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {activeTab === "shipping" && (
+              <div className="space-y-4 animate-fade-in">
+                <ul className="space-y-2">
+                  {(product.shippingInfo || []).map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-gray-600">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
@@ -499,9 +555,9 @@ function ProductDetailsPage() {
                       alt={book.title}
                       className="w-24 h-32 object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-300"
                     />
-                    {book.discount && (
+                    {(book.discountPercent ?? book.discount) && (
                       <div className="absolute -top-2 -right-2 px-2 py-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white text-xs font-bold rounded-full">
-                        -{book.discount}%
+                        -{book.discountPercent ?? book.discount}%
                       </div>
                     )}
                     {book.bestseller && (

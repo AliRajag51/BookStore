@@ -3,6 +3,8 @@ import { Eye, EyeOff, Mail, Lock, User, Book, ArrowRight, AlertCircle, X, LogIn 
 import InputField from "../../components/Auth/InputField.jsx";
 import { isValidEmail } from "../../utils/validation.js";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+
 function SignUpPage({ onClose, onSwitchToLogin }) {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -13,6 +15,10 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
   });
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [serverMessage, setServerMessage] = useState("");
+  const [showLoginHint, setShowLoginHint] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,7 +28,7 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nextErrors = {};
     const firstName = formData.firstName.trim();
@@ -56,7 +62,42 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
       return;
     }
 
-    // Submit signup here
+    setIsSubmitting(true);
+    setServerError("");
+    setServerMessage("");
+    setShowLoginHint(false);
+
+    try {
+      const response = await fetch(`${API_URL}/api/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email: emailValue,
+          password: passwordValue,
+          acceptedTerms: true
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        const message = data.message || "Registration failed";
+        setServerError(message);
+        setShowLoginHint(response.status === 409);
+        return;
+      }
+
+      setServerMessage("Account created successfully.");
+      setFormData({ firstName: "", lastName: "", email: "", password: "" });
+      setAcceptTerms(false);
+    } catch (err) {
+      setServerError("Registration failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = (e) => {
@@ -163,6 +204,25 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {serverError && (
+              <div className="text-sm text-red-600" role="alert">
+                <p>{serverError}</p>
+                {showLoginHint && (
+                  <button
+                    type="button"
+                    onClick={handleLoginClick}
+                    className="mt-2 text-sm font-semibold text-black hover:underline"
+                  >
+                    Go to login
+                  </button>
+                )}
+              </div>
+            )}
+            {serverMessage && (
+              <p className="text-sm text-green-700" role="status">
+                {serverMessage}
+              </p>
+            )}
             {/* Name Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <InputField
@@ -273,14 +333,14 @@ function SignUpPage({ onClose, onSwitchToLogin }) {
             {/* Sign Up Button */}
             <button
               type="submit"
-              disabled={!acceptTerms}
+              disabled={!acceptTerms || isSubmitting}
               className={`w-full text-white py-3 sm:py-4 rounded-xl font-medium transition-all duration-200 transform ${
-                acceptTerms 
+                acceptTerms && !isSubmitting
                   ? 'bg-black hover:bg-gray-800 hover:-translate-y-0.5 shadow-md hover:shadow-lg' 
                   : 'bg-gray-400 cursor-not-allowed'
               } text-sm sm:text-base`}
             >
-              Create Account
+              {isSubmitting ? "Creating..." : "Create Account"}
             </button>
 
             {/* Divider */}
