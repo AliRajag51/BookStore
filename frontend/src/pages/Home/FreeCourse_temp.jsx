@@ -1,14 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import SectionHeader from "../../components/FreeCourse/SectionHeader.jsx";
 import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
-import { pages } from "../../data/books.js";
 import useCart from "../../hooks/useCart.js";
 
 function FreeCourse() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [activePage, setActivePage] = useState(0);
   const [favorites, setFavorites] = useState({});
   const { addItem } = useCart();
+  const [booksData, setBooksData] = useState([]);
+
+  const pagesData = useMemo(() => {
+    if (booksData.length === 0) {
+      return [[]];
+    }
+    return Array.from(
+      { length: Math.ceil(booksData.length / 3) },
+      (_, index) => booksData.slice(index * 3, index * 3 + 3)
+    );
+  }, [booksData]);
+
+  useEffect(() => {
+    if (activePage >= pagesData.length) {
+      setActivePage(0);
+    }
+  }, [activePage, pagesData.length]);
+
+  useEffect(() => {
+    const normalizeBook = (book) => ({
+      ...book,
+      id: book.id || book._id || book.slug,
+      image: book.image || book.coverImage,
+    });
+
+    const loadBooks = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/books`);
+        const data = await response.json();
+        if (!response.ok) return;
+        const normalized = Array.isArray(data.books)
+          ? data.books.map(normalizeBook)
+          : [];
+        setBooksData(normalized);
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadBooks();
+  }, [API_URL]);
 
   const toggleFavorite = (id) => {
     setFavorites(prev => ({
@@ -18,11 +59,11 @@ function FreeCourse() {
   };
 
   const nextPage = () => {
-    setActivePage((prev) => (prev + 1) % pages.length);
+    setActivePage((prev) => (prev + 1) % pagesData.length);
   };
 
   const prevPage = () => {
-    setActivePage((prev) => (prev - 1 + pages.length) % pages.length);
+    setActivePage((prev) => (prev - 1 + pagesData.length) % pagesData.length);
   };
 
   const handleShare = (course) => {
@@ -53,7 +94,7 @@ function FreeCourse() {
 
         {/* Cards Grid */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {pages[activePage].map((course) => {
+          {(pagesData[activePage] || []).map((course) => {
             const anchorId = course.anchor;
 
             return (
@@ -83,7 +124,7 @@ function FreeCourse() {
           
           {/* Dots */}
           <div className="flex gap-3">
-            {pages.map((_, index) => (
+            {pagesData.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setActivePage(index)}

@@ -5,7 +5,6 @@ import SignUpPage from "../pages/Signup/signUpPage.jsx";
 import LoginPage from "../pages/Login/loginPage.jsx";
 import Button1 from "../components/Button/Button.jsx";
 import useCart from "../hooks/useCart.js";
-import { books } from "../data/books.js";
 
 function Navbar() {
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -20,6 +19,7 @@ function Navbar() {
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const [booksData, setBooksData] = useState([]);
   const lastScrollY = useRef(0);
 
   const results = useMemo(() => {
@@ -27,13 +27,13 @@ function Navbar() {
     if (!value) {
       return [];
     }
-    return books.filter((book) =>
+    return booksData.filter((book) =>
       [book.title, book.author, book.category]
         .join(" ")
         .toLowerCase()
         .includes(value)
     );
-  }, [query]);
+  }, [query, booksData]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,6 +59,30 @@ function Navbar() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    const normalizeBook = (book) => ({
+      ...book,
+      id: book.id || book._id || book.slug,
+      image: book.image || book.coverImage,
+    });
+
+    const loadBooks = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/books`);
+        const data = await response.json();
+        if (!response.ok) return;
+        const normalized = Array.isArray(data.books)
+          ? data.books.map(normalizeBook)
+          : [];
+        setBooksData(normalized);
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadBooks();
+  }, [API_URL]);
 
   useEffect(() => {
     const checkAuth = async () => {

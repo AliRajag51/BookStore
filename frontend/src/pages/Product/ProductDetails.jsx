@@ -17,13 +17,14 @@ import {
   ChevronRight as ChevronRightIcon,
 } from "lucide-react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { books } from "../../data/books.js";
 import useCart from "../../hooks/useCart.js";
 
 function ProductDetailsPage() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const { id } = useParams();
   const navigate = useNavigate();
   const { addItem } = useCart();
+  const [booksData, setBooksData] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [activeImage, setActiveImage] = useState(0);
@@ -31,8 +32,11 @@ function ProductDetailsPage() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const product = useMemo(
-    () => books.find((item) => item.id === id) || books[0],
-    [id]
+    () =>
+      booksData.find(
+        (item) => item.id === id || item._id === id || item.slug === id
+      ) || booksData[0],
+    [id, booksData]
   );
 
   const productImages = useMemo(() => {
@@ -47,14 +51,38 @@ function ProductDetailsPage() {
   }, [product]);
 
   useEffect(() => {
+    const normalizeBook = (book) => ({
+      ...book,
+      id: book.id || book._id || book.slug,
+      image: book.image || book.coverImage,
+    });
+
+    const loadBooks = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/books`);
+        const data = await response.json();
+        if (!response.ok) return;
+        const normalized = Array.isArray(data.books)
+          ? data.books.map(normalizeBook)
+          : [];
+        setBooksData(normalized);
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadBooks();
+  }, [API_URL]);
+
+  useEffect(() => {
     setActiveImage(0);
     setCurrentSlide(0);
   }, [product?.id]);
 
   const relevantBooks = useMemo(() => {
     if (!product) return [];
-    return books.filter((item) => item.id !== product.id);
-  }, [product]);
+    return booksData.filter((item) => item.id !== product.id);
+  }, [product, booksData]);
 
   const priceValue = Number.isFinite(product?.price) ? product.price : 0;
   const oldPriceValue = Number.isFinite(product?.oldPrice) ? product.oldPrice : null;
@@ -72,7 +100,11 @@ function ProductDetailsPage() {
   const addToCart = (count, autoCloseMs) => {
     if (!product) return;
     const safeCount = Number.isFinite(count) && count > 0 ? count : 1;
-    addItem(product, {
+    const cartProduct = {
+      ...product,
+      id: product.id || product._id || product.slug,
+    };
+    addItem(cartProduct, {
       quantity: safeCount,
       open: true,
       autoCloseMs,
@@ -95,7 +127,8 @@ function ProductDetailsPage() {
 
   const handleShare = () => {
     if (!product) return;
-    const url = `${window.location.origin}/books/${product.id}`;
+    const productId = product.id || product._id || product.slug;
+    const url = `${window.location.origin}/books/${productId}`;
     if (navigator.share) {
       navigator.share({
         title: product.title,

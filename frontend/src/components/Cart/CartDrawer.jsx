@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { X, Minus, Plus, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import useCart from "../../hooks/useCart.js";
-import { books } from "../../data/books.js";
 
 function CartDrawer() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const {
     items,
     isOpen,
@@ -15,12 +15,37 @@ function CartDrawer() {
     clearCart,
   } = useCart();
   const navigate = useNavigate();
+  const [booksData, setBooksData] = useState([]);
+
+  useEffect(() => {
+    const normalizeBook = (book) => ({
+      ...book,
+      id: book.id || book._id || book.slug,
+      image: book.image || book.coverImage,
+    });
+
+    const loadBooks = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/books`);
+        const data = await response.json();
+        if (!response.ok) return;
+        const normalized = Array.isArray(data.books)
+          ? data.books.map(normalizeBook)
+          : [];
+        setBooksData(normalized);
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadBooks();
+  }, [API_URL]);
 
   const recommendations = useMemo(() => {
     if (items.length === 0) return [];
     const cartIds = new Set(items.map((item) => item.id));
-    return books.filter((book) => !cartIds.has(book.id)).slice(0, 3);
-  }, [items]);
+    return booksData.filter((book) => !cartIds.has(book.id)).slice(0, 3);
+  }, [items, booksData]);
 
   if (!isOpen) {
     return null;

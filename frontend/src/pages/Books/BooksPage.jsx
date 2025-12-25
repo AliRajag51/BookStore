@@ -1,10 +1,10 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import CourseCard from "../../components/FreeCourse/CourseCard.jsx";
-import { books } from "../../data/books.js";
 import useCart from "../../hooks/useCart.js";
 
 function BooksPage() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const { addItem } = useCart();
   const [query, setQuery] = useState("");
   const [selectedCategories, setSelectedCategories] = useState({});
@@ -12,18 +12,43 @@ function BooksPage() {
   const [priceRange, setPriceRange] = useState({ min: "", max: "" });
   const [sortBy, setSortBy] = useState("featured");
   const [showFilters, setShowFilters] = useState(true);
+  const [booksData, setBooksData] = useState([]);
+
+  useEffect(() => {
+    const normalizeBook = (book) => ({
+      ...book,
+      id: book.id || book._id || book.slug,
+      image: book.image || book.coverImage,
+    });
+
+    const loadBooks = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/books`);
+        const data = await response.json();
+        if (!response.ok) return;
+        const normalized = Array.isArray(data.books)
+          ? data.books.map(normalizeBook)
+          : [];
+        setBooksData(normalized);
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadBooks();
+  }, [API_URL]);
 
   const categories = useMemo(() => {
-    return Array.from(new Set(books.map((book) => book.category))).sort();
-  }, []);
+    return Array.from(new Set(booksData.map((book) => book.category))).sort();
+  }, [booksData]);
 
   const priceBounds = useMemo(() => {
-    const prices = books.map((book) => Number(book.price) || 0);
+    const prices = booksData.map((book) => Number(book.price) || 0);
     return {
-      min: Math.min(...prices),
-      max: Math.max(...prices),
+      min: prices.length ? Math.min(...prices) : 0,
+      max: prices.length ? Math.max(...prices) : 0,
     };
-  }, []);
+  }, [booksData]);
 
   const filteredBooks = useMemo(() => {
     const activeCategories = Object.keys(selectedCategories).filter(
@@ -36,7 +61,7 @@ function BooksPage() {
     const ratingValue =
       minRating === "any" ? 0 : Number(minRating);
 
-    const filtered = books.filter((book) => {
+    const filtered = booksData.filter((book) => {
       const matchesQuery = [book.title, book.author, book.category]
         .join(" ")
         .toLowerCase()
@@ -63,7 +88,7 @@ function BooksPage() {
       default:
         return filtered;
     }
-  }, [query, selectedCategories, minRating, priceRange, sortBy, priceBounds]);
+  }, [query, selectedCategories, minRating, priceRange, sortBy, priceBounds, booksData]);
 
   const handleShare = (book) => {
     const url = `${window.location.origin}/books/${book.id}`;
