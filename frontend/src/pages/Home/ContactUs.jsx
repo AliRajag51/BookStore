@@ -7,6 +7,7 @@ import NextStepItem from "../../components/ContactUs/NextStepItem.jsx";
 import { isValidEmail } from "../../utils/validation.js";
 
 function ContactUs() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,6 +17,7 @@ function ContactUs() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState({});
+  const [serverError, setServerError] = useState("");
 
   const handleChange = (e) => {
     setFormData({
@@ -25,7 +27,7 @@ function ContactUs() {
     setErrors((prev) => ({ ...prev, [e.target.name]: "" }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const nextErrors = {};
     const nameValue = formData.name.trim();
@@ -56,16 +58,35 @@ function ContactUs() {
     }
 
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setServerError("");
+
+    try {
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: nameValue,
+          email: emailValue,
+          subject: subjectValue,
+          message: messageValue,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setServerError(data.message || "Message failed to send.");
+        return;
+      }
+
       setIsSubmitted(true);
       setFormData({ name: "", email: "", subject: "", message: "" });
-      
-      // Reset success message after 5 seconds
+
       setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+    } catch (err) {
+      setServerError("Message failed to send. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const contactInfo = [
@@ -157,6 +178,11 @@ function ContactUs() {
                 />
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
+                  {serverError && (
+                    <p className="text-sm text-red-600" role="alert">
+                      {serverError}
+                    </p>
+                  )}
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
