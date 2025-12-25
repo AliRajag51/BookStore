@@ -7,10 +7,15 @@ import useCart from "../../hooks/useCart.js";
 import { isValidEmail } from "../../utils/validation.js";
 
 function CheckoutPage() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
   const { items, updateQuantity, removeItem, clearCart } = useCart();
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState("credit-card");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [serverError, setServerError] = useState("");
+  const [authChecked, setAuthChecked] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -27,6 +32,96 @@ function CheckoutPage() {
       navigate("/#free-courses");
     }
   }, [items.length, isSubmitted, navigate]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/check-auth`, {
+          method: "GET",
+          credentials: "include",
+        });
+        if (!response.ok) {
+          setIsAuthenticated(false);
+          setAuthChecked(true);
+          navigate("/#login");
+          return;
+        }
+        setIsAuthenticated(true);
+        setAuthChecked(true);
+      } catch {
+        setIsAuthenticated(false);
+        setAuthChecked(true);
+        navigate("/#login");
+      }
+    };
+
+    checkAuth();
+  }, [API_URL, navigate]);
+
+  const placeOrder = async () => {
+    const nextErrors = {};
+    const fullName = formData.fullName.trim();
+    const emailValue = formData.email.trim();
+    const addressValue = formData.address.trim();
+
+    if (items.length === 0) {
+      return;
+    }
+    if (!isAuthenticated) {
+      navigate("/#login");
+      return;
+    }
+    if (!fullName) {
+      nextErrors.fullName = "Full name is required.";
+    }
+    if (!emailValue) {
+      nextErrors.email = "Email is required.";
+    } else if (!isValidEmail(emailValue)) {
+      nextErrors.email = "Enter a valid email address.";
+    }
+    if (!addressValue) {
+      nextErrors.address = "Address is required.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setErrors(nextErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
+    setServerError("");
+
+    try {
+      const response = await fetch(`${API_URL}/api/orders`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          fullName,
+          email: emailValue,
+          address: addressValue,
+          paymentMethod,
+          items: items.map((item) => ({
+            bookId: item.id,
+            quantity: item.quantity,
+          })),
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        setServerError(data.message || "Order failed");
+        return;
+      }
+
+      setIsSubmitted(true);
+      clearCart();
+    } catch (err) {
+      setServerError("Order failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <section className="font-poppins py-16 bg-gradient-to-b from-white to-gray-50">
@@ -154,10 +249,18 @@ function CheckoutPage() {
                 </div>
               ) : (
                 <>
+                  {!authChecked ? (
+                    <p className="text-sm text-gray-600">Checking authentication...</p>
+                  ) : null}
                   <h2 className="text-xl font-semibold text-gray-900 mb-4">
                     Your details
                   </h2>
                   <form className="space-y-4">
+                    {serverError && (
+                      <p className="text-sm text-red-600" role="alert">
+                        {serverError}
+                      </p>
+                    )}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Full name
@@ -262,39 +365,11 @@ function CheckoutPage() {
 
                   <button
                     type="button"
-                    className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:from-pink-600 hover:to-purple-700 transition"
-                    onClick={() => {
-                      const nextErrors = {};
-                      const fullName = formData.fullName.trim();
-                      const emailValue = formData.email.trim();
-                      const addressValue = formData.address.trim();
-
-                      if (items.length === 0) {
-                        return;
-                      }
-                      if (!fullName) {
-                        nextErrors.fullName = "Full name is required.";
-                      }
-                      if (!emailValue) {
-                        nextErrors.email = "Email is required.";
-                      } else if (!isValidEmail(emailValue)) {
-                        nextErrors.email = "Enter a valid email address.";
-                      }
-                      if (!addressValue) {
-                        nextErrors.address = "Address is required.";
-                      }
-
-                      if (Object.keys(nextErrors).length > 0) {
-                        setErrors(nextErrors);
-                        return;
-                      }
-
-                      setIsSubmitted(true);
-                      clearCart();
-                    }}
-                    disabled={items.length === 0}
+                    className="mt-6 w-full py-3 rounded-xl bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold hover:from-pink-600 hover:to-purple-700 transition disabled:opacity-60"
+                    onClick={placeOrder}
+                    disabled={items.length === 0 || isSubmitting || !isAuthenticated}
                   >
-                    Place order
+                    {isSubmitting ? "Placing order..." : "Place order"}
                   </button>
                 </>
               )}
