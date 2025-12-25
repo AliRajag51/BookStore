@@ -218,31 +218,6 @@ function AboutUs() {
             className="border-purple-100"
           />
         </div>
-
-        {/* CTA */}
-        <div className="mt-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-2xl p-8 md:p-12 text-center text-white shadow-xl">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Ready to start your learning journey?
-          </h2>
-          <p className="text-pink-100 mb-6 max-w-2xl mx-auto">
-            Join thousands of learners who are already transforming their lives
-            through reading and education.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/#free-courses"
-              className="inline-flex px-6 py-3 bg-white text-pink-600 font-semibold rounded-xl hover:bg-gray-100 transition transform hover:-translate-y-0.5"
-            >
-              Explore Books
-            </a>
-            <a
-              href="/#contact"
-              className="inline-flex px-6 py-3 bg-pink-700 text-white font-semibold rounded-xl hover:bg-pink-800 transition transform hover:-translate-y-0.5"
-            >
-              Join Our Community
-            </a>
-          </div>
-        </div>
       </div>
     </section>
   );
