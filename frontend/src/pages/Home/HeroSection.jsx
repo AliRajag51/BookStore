@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import bannerImage from "../../assets/banner-image.png";
 
 function HeroSection() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const [stats, setStats] = useState({ users: 0, books: 0, activeBooks: 0 });
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/stats`);
+        const data = await response.json();
+        if (!response.ok) return;
+        setStats(data.stats || {});
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadStats();
+  }, [API_URL]);
+
+  const formatCount = (value) => {
+    if (!Number.isFinite(value)) return "0";
+    if (value >= 1000000) {
+      const num = (value / 1000000).toFixed(1).replace(/\.0$/, "");
+      return `${num}M+`;
+    }
+    if (value >= 1000) {
+      const num = (value / 1000).toFixed(1).replace(/\.0$/, "");
+      return `${num}K+`;
+    }
+    return `${value}+`;
+  };
+
   return (
     <section id="home" className="font-poppins  from-white to-gray-50">
       <div className="max-w-7xl mx-auto py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
@@ -57,7 +88,7 @@ function HeroSection() {
             <div className="mt-8 sm:mt-10 grid grid-cols-3 gap-4">
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  10K+
+                  {formatCount(stats.users)}
                 </div>
                 <div className="text-gray-600 text-sm sm:text-base">
                   Readers
@@ -66,7 +97,7 @@ function HeroSection() {
 
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  100+
+                  {formatCount(stats.activeBooks)}
                 </div>
                 <div className="text-gray-600 text-sm sm:text-base">
                   Curated Lists
@@ -75,7 +106,7 @@ function HeroSection() {
 
               <div className="text-center">
                 <div className="text-2xl sm:text-3xl font-bold text-gray-900">
-                  5K+
+                  {formatCount(stats.books)}
                 </div>
                 <div className="text-gray-600 text-sm sm:text-base">Books</div>
               </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Users,
   Award,
@@ -17,28 +17,64 @@ import TeamMemberCard from "../../components/AboutUs/TeamMemberCard.jsx";
 import MissionCard from "../../components/AboutUs/MissionCard.jsx";
 
 function AboutUs() {
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+  const [statsData, setStatsData] = useState({
+    users: 0,
+    books: 0,
+    activeBooks: 0,
+    orders: 0,
+  });
+
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/stats`);
+        const data = await response.json();
+        if (!response.ok) return;
+        setStatsData(data.stats || {});
+      } catch {
+        // Ignore fetch errors for now
+      }
+    };
+
+    loadStats();
+  }, [API_URL]);
+
+  const formatCount = (value) => {
+    if (!Number.isFinite(value)) return "0";
+    if (value >= 1000000) {
+      const num = (value / 1000000).toFixed(1).replace(/\.0$/, "");
+      return `${num}M+`;
+    }
+    if (value >= 1000) {
+      const num = (value / 1000).toFixed(1).replace(/\.0$/, "");
+      return `${num}K+`;
+    }
+    return `${value}+`;
+  };
+
   const stats = [
     {
       icon: <Users className="w-8 h-8" />,
-      value: "50K+",
+      value: formatCount(statsData.users),
       label: "Happy Readers",
       color: "text-pink-600 bg-gradient-to-br from-pink-50 to-pink-100",
     },
     {
       icon: <BookOpen className="w-8 h-8" />,
-      value: "10K+",
+      value: formatCount(statsData.books),
       label: "Books Available",
       color: "text-purple-600 bg-gradient-to-br from-purple-50 to-purple-100",
     },
     {
       icon: <Globe className="w-8 h-8" />,
-      value: "150+",
+      value: formatCount(statsData.orders),
       label: "Countries Reached",
       color: "text-pink-500 bg-gradient-to-br from-pink-50 to-pink-100",
     },
     {
       icon: <Award className="w-8 h-8" />,
-      value: "25+",
+      value: formatCount(statsData.activeBooks),
       label: "Awards Won",
       color: "text-purple-500 bg-gradient-to-br from-purple-50 to-purple-100",
     },
