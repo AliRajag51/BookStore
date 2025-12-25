@@ -138,7 +138,7 @@ function AboutUs() {
             </p>
 
             <a
-              href="/#free-courses"
+              href="/books"
               className="inline-flex px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-medium rounded-xl hover:from-pink-600 hover:to-purple-700 hover:shadow-lg transition transform hover:-translate-y-0.5"
             >
               Explore Our Collection

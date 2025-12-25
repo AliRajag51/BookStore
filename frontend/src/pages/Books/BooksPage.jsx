@@ -90,7 +90,7 @@ function BooksPage() {
   };
 
   return (
-    <section className="font-poppins bg-gradient-to-b from-white to-gray-50 py-12">
+    <section id="books" className="font-poppins bg-gradient-to-b from-white to-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
