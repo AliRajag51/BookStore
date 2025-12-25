@@ -15,7 +15,7 @@ function Navbar() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const userMenuRef = useRef(null);
-  const { itemCount, openCart } = useCart();
+  const { itemCount, openCart, clearCart } = useCart();
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
@@ -126,6 +126,7 @@ function Navbar() {
     } catch {
       // Ignore network errors and still clear UI state
     } finally {
+      clearCart();
       setCurrentUser(null);
       setShowUserMenu(false);
     }
